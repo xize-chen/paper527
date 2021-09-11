@@ -2,19 +2,19 @@ const AthenaExpress = require('athena-express');
 const AWS = require('aws-sdk');
 const statements = require('./QueryStatement');
 
-const awsCredentials = {
-  region: 'us-east-2',
-  accessKeyId: 'accessKeyId', // TODO
-  secretAccessKey: 'secretAccessKey' // TODO
-};
+// const awsCredentials = {
+//   region: 'ap-southeast-2',
+//   accessKeyId: '', // TODO
+//   secretAccessKey: '', // TODO
+// };
 
 class AthenaDatabase {
   constructor() {
-    AWS.config.update(awsCredentials);
+    AWS.config.update({ region: 'ap-southeast-2' });
     this.athenaExpress = new AthenaExpress({
       aws: AWS,
-      s3: 's3://*****', //TODO
-      getStats: false
+      s3: 's3://tee1365testbucket/compx527', //TODO
+      getStats: true,
     });
   }
 
@@ -23,7 +23,10 @@ class AthenaDatabase {
       if (callback == null) {
         throw new Error('callback must be set');
       }
-      const results = await this.athenaExpress.query({ sql: statement, db: 'covid-19' });
+      const results = await this.athenaExpress.query({
+        sql: statement,
+        db: 'covid-19',
+      });
       callback(null, results);
     } catch (error) {
       console.log(error);
@@ -40,6 +43,10 @@ class AthenaDatabase {
   ---including ordering by group */
   async getTotalCases(date, callback) {
     this.query(statements.getTotalCaseByNow(date), callback);
+  }
+
+  async getTotalCasesByLocation(date, location, callback) {
+    this.query(statements.getTotalCasesByLocation(date, location), callback);
   }
 
   /* The location information of countries on the map: The latitude and longitude */
