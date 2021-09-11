@@ -84,6 +84,7 @@ const DashboardTask = () => {
             </Typography>
             <br />
             <Grid container spacing={2}>
+
               <Grid item lg={6} md={6} xl={6} xs={6}>
                 <SummaryCluster />
               </Grid>

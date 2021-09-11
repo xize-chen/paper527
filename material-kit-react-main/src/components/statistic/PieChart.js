@@ -30,11 +30,20 @@ const data = {
 
 const PieChart = () => (
   <>
-    <div className="header">
-      <h1 className="title">Top 5 Total Cases Count by Country</h1>
-      <div className="links" />
-    </div>
-    <Pie data={data} />
+    <Pie
+      data={data}
+      options={{
+        title: {
+          display: true,
+          text: 'Top 5 Total Cases Count by Country',
+          fontSize: 25,
+        },
+        legend: {
+          display: true,
+          position: 'top'
+        }
+      }}
+    />
   </>
 );
 

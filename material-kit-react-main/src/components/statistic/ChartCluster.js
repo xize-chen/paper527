@@ -13,6 +13,10 @@ const ChartCluster = () => (
   >
     <PieChart />
     <br />
+    <br />
+    <br />
+    <br />
+    <br />
     <Map />
   </Box>
 );

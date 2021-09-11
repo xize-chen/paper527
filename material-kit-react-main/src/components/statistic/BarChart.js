@@ -27,8 +27,20 @@ const BarChart = () => {
   };
   return (
     <div>
-      <h2>New Zealand New Cases and Deaths Count</h2>
-      <Bar data={dataHorBar} />
+      <Bar
+        data={dataHorBar}
+        options={{
+          title: {
+            display: true,
+            text: 'New Cases and New Deaths Count',
+            fontSize: 25,
+          },
+          legend: {
+            display: true,
+            position: 'top'
+          }
+        }}
+      />
     </div>
   );
 };

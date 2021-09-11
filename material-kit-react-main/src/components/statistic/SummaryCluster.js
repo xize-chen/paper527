@@ -40,7 +40,7 @@ const CardCluster = () => {
         position: 'relative'
       }}
     >
-      <Grid container spacing={1}>
+      <Grid container spacing={5} style={{ paddingTop: 20 }}>
 
         <Grid item lg={12} sm={12} xl={12} xs={12}>
           <CardData metric="" metricValue={dashInfo.country} />
@@ -52,10 +52,12 @@ const CardCluster = () => {
       </Grid>
 
       <br />
+      <br />
+      <br />
 
-      <Grid container spacing={1}>
+      <Grid container spacing={3}>
         {detailDatas.map((data) => (
-          <Grid item lg={6} sm={6} xl={6} xs={6} key={data.label}>
+          <Grid item lg={6} sm={6} xl={6} xs={6} key={data.label} style={{ paddingBottom: 50 }}>
             <CardData metric={data.label} metricValue={data.value} />
           </Grid>
         ))}

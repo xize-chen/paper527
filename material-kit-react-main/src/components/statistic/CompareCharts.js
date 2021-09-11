@@ -28,8 +28,20 @@ const CompareCharts = ({ chartLabel, compareData }) => {
   };
   return (
     <div>
-      <h2>{chartLabel}</h2>
-      <Bar data={dataHorBar} />
+      <Bar
+        data={dataHorBar}
+        options={{
+          title: {
+            display: true,
+            text: chartLabel,
+            fontSize: 25,
+          },
+          legend: {
+            display: true,
+            position: 'top'
+          }
+        }}
+      />
     </div>
   );
 };
