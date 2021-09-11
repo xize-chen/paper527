@@ -10,12 +10,12 @@ const CardCluster = () => {
   const nowTime = new Date();
   const dashInfo = {
     country: `User Location: ${LOCATION}`,
-    date: `Report Date: ${nowTime.toString()}`
+    date: `Report Date: ${nowTime.toLocaleDateString()} ${'(NZST)'}`
   };
 
   const detailDatas = [
     {
-      label: `${LOCATION}: New Cases Count `,
+      label: 'New Cases Count',
       value: 23
     },
     {
@@ -23,7 +23,7 @@ const CardCluster = () => {
       value: '50%'
     },
     {
-      label: `${LOCATION}: New Deaths Count`,
+      label: 'New Deaths Count',
       value: 3
     },
     {
@@ -40,24 +40,15 @@ const CardCluster = () => {
         position: 'relative'
       }}
     >
-      <Grid container spacing={5} style={{ paddingTop: 20 }}>
-
+      <Grid container spacing={2}>
         <Grid item lg={12} sm={12} xl={12} xs={12}>
           <CardData metric="" metricValue={dashInfo.country} />
         </Grid>
-
         <Grid item lg={12} sm={12} xl={12} xs={12}>
           <CardData metric="" metricValue={dashInfo.date} />
         </Grid>
-      </Grid>
-
-      <br />
-      <br />
-      <br />
-
-      <Grid container spacing={3}>
         {detailDatas.map((data) => (
-          <Grid item lg={6} sm={6} xl={6} xs={6} key={data.label} style={{ paddingBottom: 50 }}>
+          <Grid item lg={6} sm={6} xl={6} xs={6} key={data.label}>
             <CardData metric={data.label} metricValue={data.value} />
           </Grid>
         ))}

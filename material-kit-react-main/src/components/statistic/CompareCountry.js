@@ -291,8 +291,6 @@ const CompareCountry = ({ getCountry }) => {
 
       </Grid>
 
-      <br />
-
       <Grid container spacing={1}>
         <Grid item lg={6} sm={6} xl={6} xs={6}>
           <CardData metric="Total case" metricValue={countryAData.case} />
@@ -302,8 +300,6 @@ const CompareCountry = ({ getCountry }) => {
           <CardData metric="Total death" metricValue={countryAData.death} />
         </Grid>
       </Grid>
-
-      <br />
 
     </Box>
   );

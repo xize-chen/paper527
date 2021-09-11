@@ -32,7 +32,7 @@ const CardDataRank = ({ title, datas, ...props }) => {
                 {
                   title.includes('Cases')
                     ? (sortedByCases.map((i) => (
-                      <ListItem>
+                      <ListItem key={i.name}>
                         <ListItemText>
                           {i.name}
                           {' '}
@@ -41,7 +41,7 @@ const CardDataRank = ({ title, datas, ...props }) => {
                       </ListItem>
                     )))
                     : (sortedByDeath.map((i) => (
-                      <ListItem>
+                      <ListItem key={i.name}>
                         <ListItemText>
                           {i.name}
                           {' '}

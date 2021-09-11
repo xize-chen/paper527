@@ -32,6 +32,8 @@ const PieChart = () => (
   <>
     <Pie
       data={data}
+      width={350}
+      height={350}
       options={{
         title: {
           display: true,
@@ -40,9 +42,12 @@ const PieChart = () => (
         },
         legend: {
           display: true,
-          position: 'top'
-        }
+          position: 'left'
+        },
+        maintainAspectRatio: false
+
       }}
+
     />
   </>
 );
