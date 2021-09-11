@@ -28,9 +28,7 @@ const routes = (isLoggedIn) => [
       { path: 'account', element: <Account /> },
       { path: 'settings', element: <Settings /> },
       { path: '*', element: <NotFound /> },
-      { path: 'dashboard', element: <Dashboard page="local" /> },
-      { path: 'dashboard/total', element: <Dashboard page="total" /> },
-      { path: 'dashboard/compare', element: <Dashboard page="compare" /> },
+      { path: 'dashboard', element: <Dashboard /> },
     ]
   },
 ];

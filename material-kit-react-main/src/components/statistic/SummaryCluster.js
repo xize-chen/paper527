@@ -4,42 +4,35 @@ import {
 } from '@material-ui/core';
 import CardData from 'src/components/statistic/CardData';
 
+const LOCATION = 'New Zealand';
+
 const CardCluster = () => {
   const nowTime = new Date();
   const dashInfo = {
-    label: 'Local Weekly Dashboard',
-    country: 'New zealand',
-    date: nowTime.toString()
+    country: `User Location: ${LOCATION}`,
+    date: `Report Date: ${nowTime.toString()}`
   };
 
   const detailDatas = [
     {
-      label: 'country cases lw:',
+      label: `${LOCATION}: New Cases Count `,
       value: 23
     },
     {
-      label: 'cases trend:',
+      label: 'New Cases Trend:',
       value: '50%'
     },
     {
-      label: 'country death lw:',
+      label: `${LOCATION}: New Deaths Count`,
       value: 3
     },
     {
-      label: 'death trend:',
-      value: 23
-    },
-    {
-      label: 'death rate:',
-      value: 23
-    },
-    {
-      label: 'death rate trend:',
-      value: 23
+      label: 'New Deaths Rate:',
+      value: '1%'
     },
   ];
 
-  const proportion = { label: 'Deaths/Confirmed', value: '5%' };
+  const proportion = { label: `${LOCATION}: Total Cases`, value: '100' };
   return (
     <Box
       sx={{
@@ -48,9 +41,6 @@ const CardCluster = () => {
       }}
     >
       <Grid container spacing={1}>
-        <Grid item lg={12} sm={12} xl={12} xs={12}>
-          <CardData metric="" metricValue={dashInfo.label} />
-        </Grid>
 
         <Grid item lg={12} sm={12} xl={12} xs={12}>
           <CardData metric="" metricValue={dashInfo.country} />

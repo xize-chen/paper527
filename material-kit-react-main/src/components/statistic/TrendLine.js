@@ -12,12 +12,7 @@ const TrendLine = () => {
         backgroundColor: 'rgba(75,192,192,0.2)',
         borderColor: 'rgba(75,192,192,1)'
       },
-      {
-        label: 'Total Deaths',
-        data: [1.7, 2.7, 4.3, 5, 7.5, 10],
-        fill: false,
-        borderColor: '#742774'
-      }
+
     ]
   };
   return (
@@ -27,7 +22,7 @@ const TrendLine = () => {
         options={{
           title: {
             display: true,
-            text: 'Total number of confirmed, deaths',
+            text: 'New Zealand Total Cases Over Time',
             fontSize: 25,
           },
           legend: {

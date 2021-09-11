@@ -8,21 +8,10 @@ import CardDataRank from './CardDataRank';
 
 const SummaryClusterTotal = ({ countryDatas }) => {
   const dashInfo = {
-    label: 'Total Dashboard',
-    totalcases: 9451215,
-    totalDeath: 15644
+    newCount: '1,000,000',
+    newDeath: '15,644',
+    totalcases: '9,451,215'
   };
-
-  const detailDatas = [
-    {
-      label: 'monthly highest cases:',
-      value: 23
-    },
-    {
-      label: 'monthly highest deaths:',
-      value: 263
-    },
-  ];
 
   return (
     <Box
@@ -32,38 +21,35 @@ const SummaryClusterTotal = ({ countryDatas }) => {
       }}
     >
       <Grid container spacing={1}>
+
         <Grid item lg={12} sm={12} xl={12} xs={12}>
-          <CardData metric="" metricValue={dashInfo.label} />
+          <CardData metric="" metricValue="Report Date: 01.07.2021" />
         </Grid>
 
         <Grid item lg={12} sm={12} xl={12} xs={12}>
-          <CardData metric="total cases" metricValue={dashInfo.totalcases} />
+          <CardData metric="Worldwide New Cases Count " metricValue={dashInfo.newCount} />
         </Grid>
 
         <Grid item lg={12} sm={12} xl={12} xs={12}>
-          <CardData metric="Total Death" metricValue={dashInfo.totalDeath} />
+          <CardData metric="Worldwide New Deaths Count" metricValue={dashInfo.newDeath} />
+        </Grid>
+
+        <Grid item lg={12} sm={12} xl={12} xs={12}>
+          <CardData metric="Worldwide Total Cases Count" metricValue={dashInfo.totalcases} />
         </Grid>
       </Grid>
 
       <br />
-
-      <Grid container spacing={1}>
-        {detailDatas.map((data) => (
-          <Grid item lg={6} sm={6} xl={6} xs={6} key={data.label}>
-            <CardData metric={data.label} metricValue={data.value} />
-          </Grid>
-        ))}
-      </Grid>
 
       <br />
 
       {countryDatas ? (
         <Grid container spacing={2}>
           <Grid item lg={6} sm={6} xl={6} xs={6} key={countryDatas.name}>
-            <CardDataRank title="Top 5 Cases rank" datas={countryDatas} />
+            <CardDataRank title="Top 5 New Cases Count by Country" datas={countryDatas} />
           </Grid>
           <Grid item lg={6} sm={6} xl={6} xs={6} key={countryDatas.name}>
-            <CardDataRank title="Top 5 Death rank" datas={countryDatas} />
+            <CardDataRank title="Top 5 New Deaths Count by Country" datas={countryDatas} />
           </Grid>
 
         </Grid>

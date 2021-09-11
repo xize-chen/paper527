@@ -59,7 +59,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           to={paths.account}
         />
         <Typography color="textPrimary" variant="h5">
-          Jackie Smith
+          sdsdsd Smith
         </Typography>
       </Box>
       <Divider />
