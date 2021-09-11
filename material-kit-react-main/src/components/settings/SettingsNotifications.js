@@ -13,11 +13,11 @@ import {
 } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { useState, useEffect } from 'react';
-import Server from 'src/services/Server';
+// import Server from 'src/services/Server';
 import sessionKey from 'src/constants/sessionKey';
 import currentUser from 'src/config/currentUser';
 
-const service = new Server();
+// const service = new Server();
 const SettingsNotifications = (props) => {
   const [alert, setAlert] = useState({});
   const session = window.sessionStorage;
@@ -30,14 +30,15 @@ const SettingsNotifications = (props) => {
   const [notifications, setNotifications] = useState(settings.notifications === undefined ? {} : settings.notifications);
   const [messages, setMessages] = useState(settings.messages === undefined ? {} : settings.messages);
   useEffect(() => {
-    service.getSettings((response) => {
-      if (JSON.stringify(settings) !== JSON.stringify(JSON.parse(response.data.value))) {
-        const varSettings = JSON.parse(response.data.value);
-        setSettings(varSettings);
-        setNotifications(varSettings.notifications);
-        setMessages(varSettings.messages);
-      }
-    });
+    // service.getSettings((response) => {
+    //   if (JSON.stringify(settings) !== JSON.stringify(JSON.parse(response.data.value))) {
+    //     const varSettings = JSON.parse(response.data.value);
+    //     setSettings(varSettings);
+    //     setNotifications(varSettings.notifications);
+    //     setMessages(varSettings.messages);
+    //   }
+    // });
+    setSettings({});
   }, []);
 
   const handleMessageChange = (event) => {
@@ -62,19 +63,19 @@ const SettingsNotifications = (props) => {
     const varNotification = notifications;
     const settingClone = { uid: currentUser().uid, messages: varMessage, notifications: varNotification };
     console.log(`onSaveClick:${settingClone}`);
-    service.saveSettings(settingClone)
-      .then((response) => {
-        if (response.data.value === undefined) {
-          console.error(response.message);
-        }
-        const alterSuccess = { isError: false, isOpen: true, message: 'Save successfully!' };
-        setAlert(alterSuccess);
-      })
-      .catch((error) => {
-        const alterError = { isError: true, isOpen: true, message: 'error' };
-        console.log(`${error}`);
-        setAlert(alterError);
-      });
+    // service.saveSettings(settingClone)
+    //   .then((response) => {
+    //     if (response.data.value === undefined) {
+    //       console.error(response.message);
+    //     }
+    //     const alterSuccess = { isError: false, isOpen: true, message: 'Save successfully!' };
+    //     setAlert(alterSuccess);
+    //   })
+    //   .catch((error) => {
+    //     const alterError = { isError: true, isOpen: true, message: 'error' };
+    //     console.log(`${error}`);
+    //     setAlert(alterError);
+    //   });
   };
 
   return (

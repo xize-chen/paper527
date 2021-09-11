@@ -3,12 +3,12 @@ import { useState, useEffect } from 'react';
 import { Box, Container, Grid } from '@material-ui/core';
 import AccountProfile from 'src/components/account/AccountProfile';
 import AccountProfileDetails from 'src/components/account/AccountProfileDetails';
-import Server from 'src/services/Server';
+// import Server from 'src/services/Server';
 import sessionKey from 'src/constants/sessionKey';
 
 const clone = require('clone');
 
-const service = new Server();
+// const service = new Server();
 const Account = () => {
   const session = window.sessionStorage;
   const [accountVal, setAccountVal] = useState(() => {
@@ -31,14 +31,14 @@ const Account = () => {
     setAccountVal(accountClone);
   };
   useEffect(() => {
-    service.getAccount((response) => {
-      const accountArray = JSON.parse(response.data.value);
-      if (accountArray.length > 0) {
-        setAccountVal(accountArray[0]);
-      } else {
-        setAccountVal({});
-      }
-    });
+    // service.getAccount((response) => {
+    //   const accountArray = JSON.parse(response.data.value);
+    //   if (accountArray.length > 0) {
+    //     setAccountVal(accountArray[0]);
+    //   } else {
+    //     setAccountVal({});
+    //   }
+    // });
   }, []);
   return (
     <>
