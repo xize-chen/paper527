@@ -5,30 +5,33 @@ const dynamoDB = require("../middleware/DynamoDB");
 const getSummaryOfWorld = (req, res) => {
   try {
     if (req.query.date == null || req.query.date == undefined) {
-        throw new Error("Invalid date");
+      throw new Error('Invalid date');
     }
     date = req.query.date;
     athenaDatabase.getSummaryOfWorld(date, function (err, result) {
       if (err !== null) {
-        return res
-          .status(500)
-          .send({ message: `Could not get summary information ${date}:${err}` });
+        return res.status(500).send({
+          message: `Could not get summary information ${date}:${err}`,
+        });
       }
-      return res
-        .status(200)
-        .send({ message: "Get summary information successfully", value: result });
+      return res.status(200).send({
+        message: 'Get summary information successfully',
+        value: result,
+      });
     });
   } catch (err) {
-    return res.status(500).send({ message: `Serious error: Could not get summary information :${err}` });
+    return res.status(500).send({
+      message: `Serious error: Could not get summary information :${err}`,
+    });
   }
-}
+};
 
 /* Used for the map visualization of total cases at the specific time by location
 ---including ordering by group */
 const getTotalCases = (req, res) => {
   try {
     if (req.query.date == null || req.query.date == undefined) {
-        throw new Error("Invalid date");
+      throw new Error('Invalid date');
     }
     date = req.query.date;
     athenaDatabase.getTotalCases(date, function (err, result) {
@@ -39,10 +42,12 @@ const getTotalCases = (req, res) => {
       }
       return res
         .status(200)
-        .send({ message: "Get total cases successfully", value: result });
+        .send({ message: 'Get total cases successfully', value: result });
     });
   } catch (err) {
-    return res.status(500).send({ message: `Serious error: Could not get total cases :${err}` });
+    return res
+      .status(500)
+      .send({ message: `Serious error: Could not get total cases :${err}` });
   }
 }
 
@@ -51,18 +56,21 @@ const getLocationOfCountry = (req, res) => {
   try {
     athenaDatabase.getLocationOfCountry(function (err, result) {
       if (err !== null) {
-        return res
-          .status(500)
-          .send({ message: `Could not get locations of countries ${date}:${err}` });
+        return res.status(500).send({
+          message: `Could not get locations of countries ${date}:${err}`,
+        });
       }
-      return res
-        .status(200)
-        .send({ message: "Get locations of countries successfully", value: result });
+      return res.status(200).send({
+        message: 'Get locations of countries successfully',
+        value: result,
+      });
     });
   } catch (err) {
-    return res.status(500).send({ message: `Serious error: Could not get locations of countries :${err}` });
+    return res.status(500).send({
+      message: `Serious error: Could not get locations of countries :${err}`,
+    });
   }
-}
+};
 
 /* Total deaths, cases in the world by month  ---including total deaths(or cases) per million
 [see the field total_deaths_per_million, total_cases_per_million] */
@@ -70,18 +78,54 @@ const getTotalCaseByMonth = (req, res) => {
   try {
     athenaDatabase.getTotalCaseByMonth(function (err, result) {
       if (err !== null) {
-        return res
-          .status(500)
-          .send({ message: `Could not get total cases by month ${date}:${err}` });
+        return res.status(500).send({
+          message: `Could not get total cases by month ${date}:${err}`,
+        });
       }
-      return res
-        .status(200)
-        .send({ message: "Get total cases by month successfully", value: result });
+      return res.status(200).send({
+        message: 'Get total cases by month successfully',
+        value: result,
+      });
     });
   } catch (err) {
-    return res.status(500).send({ message: `Serious error: Could not get total cases by month :${err}` });
+    return res.status(500).send({
+      message: `Serious error: Could not get total cases by month :${err}`,
+    });
   }
-}
+};
+
+const getTotalCasesByLocation = (req, res) => {
+  try {
+    const date = req.query.date;
+    const location = req.query.location;
+    if (date == null || date == undefined) {
+      throw new Error('Invalid date');
+    }
+    if (location == null || location == undefined) {
+      throw new Error('Invalid location');
+    }
+
+    athenaDatabase.getTotalCasesByLocation(
+      date,
+      location,
+      function (err, result) {
+        if (err !== null) {
+          return res.status(500).send({
+            message: `Could not get total cases by location [${location}] [${date}]:${err}`,
+          });
+        }
+        return res.status(200).send({
+          message: 'Get summary information successfully',
+          value: result,
+        });
+      }
+    );
+  } catch (err) {
+    return res.status(500).send({
+      message: `Serious error: Could not get data :${err}`,
+    });
+  }
+};
 
 /* sign up a new account with an email */
 const signUp = (req, res) => {
@@ -183,5 +227,6 @@ module.exports = {
   saveAccount,
   updatePassword,
   signInWithEmailAndPassword,
-  signUp
+  signUp,
+  getTotalCasesByLocation
 };

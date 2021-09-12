@@ -1,6 +1,6 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const controller = require("../controller/file.controller");
+const controller = require('../controller/file.controller');
 
 let routes = (app) => {
   router.get("/get_summary_world", controller.getSummaryOfWorld);
@@ -12,6 +12,7 @@ let routes = (app) => {
   router.post("/update_password", controller.updatePassword);
   router.post("/save_account", controller.saveAccount);
   router.post("/query_by_email", controller.queryByEmail);
+  router.get('/get_total_cases_by_location', controller.getTotalCasesByLocation);
   app.use(router);
 };
 
