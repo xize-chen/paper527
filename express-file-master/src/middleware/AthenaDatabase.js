@@ -13,7 +13,8 @@ class AthenaDatabase {
     AWS.config.update({ region: 'ap-southeast-2' });
     this.athenaExpress = new AthenaExpress({
       aws: AWS,
-      s3: 's3://tee1365testbucket/compx527', //TODO
+      // s3: 's3://tee1365testbucket/compx527', //TODO
+      s3: 's3://', //TODO
       getStats: true,
     });
   }
