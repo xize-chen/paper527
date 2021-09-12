@@ -1,6 +1,7 @@
 const cors = require('cors');
 const express = require('express');
-
+const getAllDataOfYesterday = require('./src/scheduledService');
+const schedule = require('node-schedule');
 
 // get s3
 // const AWS = require('aws-sdk');
@@ -43,4 +44,12 @@ initRoutes(app);
 let port = 8080;
 app.listen(port, () => {
   console.log(`Running at localhost:${port}`);
+  // const job = schedule.scheduleJob('0 12 * * *', function () {
+  //   console.log('The answer to life, the universe, and everything!');
+  //   getAllDataOfYesterday();
+  // });
+  // const job = schedule.scheduleJob('0 * * * * *', function () {
+  //   console.log('The answer to life, the universe, and everything!');
+  //   getAllDataOfYesterday();
+  // });
 });

@@ -214,6 +214,8 @@ class DynamoDB {
         callback(error, null);
     }
   }
+
+  async saveCovidDataByDay(){}
 }
 
 const DynamoDBInstance = new DynamoDB();

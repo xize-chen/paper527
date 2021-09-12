@@ -52,10 +52,35 @@ WHERE LOWER(location)='${location}' and to_date(date, '${dateFormat}') <= to_dat
 order by date desc
 limit 1`;
 
+const getAllDataOfYesterday = () => `SELECT date,
+location,
+total_cases,
+total_deaths,
+new_cases,
+new_deaths,
+iso_code,
+total_cases_per_million,
+new_cases_per_million,
+total_deaths_per_million,
+new_deaths_per_million,
+total_tests,
+new_tests,
+total_tests_per_thousand,
+new_tests_per_thousand,
+tests_units
+FROM world_cases_deaths_testing
+WHERE to_date(date, '${dateFormat}') = current_date - interval '1' day
+ORDER BY  location ASC`;
+
+// const job = schedule.scheduleJob('0 12 * * *', function () {
+//   console.log('The answer to life, the universe, and everything!');
+// });
+
 module.exports = {
   getTotalCaseWorldwide,
   getTotalCaseByNow,
   COUNTRY_LAT,
   TOTAL_CASES_BY_MONTH,
   getTotalCasesByLocation,
+  getAllDataOfYesterday,
 };

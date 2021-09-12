@@ -10,12 +10,12 @@ const statements = require('./QueryStatement');
 
 class AthenaDatabase {
   constructor() {
-    AWS.config.update({ region: 'ap-southeast-2' });
+    AWS.config.update({ region: 'ap-southeast-2' }); // <-- changed
     this.athenaExpress = new AthenaExpress({
       aws: AWS,
       // s3: 's3://tee1365testbucket/compx527', //TODO
       s3: 's3://', //TODO
-      getStats: true,
+      getStats: false,
     });
   }
 
@@ -46,6 +46,7 @@ class AthenaDatabase {
     this.query(statements.getTotalCaseByNow(date), callback);
   }
 
+  /* covid-19 situation for a country */
   async getTotalCasesByLocation(date, location, callback) {
     this.query(statements.getTotalCasesByLocation(date, location), callback);
   }
@@ -59,6 +60,10 @@ class AthenaDatabase {
   [see the field total_deaths_per_million, total_cases_per_million] */
   async getTotalCaseByMonth(callback) {
     this.query(statements.TOTAL_CASES_BY_MONTH, callback);
+  }
+
+  async getAllDataOfYesterday(callback) {
+    this.query(statements.getAllDataOfYesterday(), callback);
   }
 }
 
