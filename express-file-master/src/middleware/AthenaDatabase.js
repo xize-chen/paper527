@@ -10,7 +10,8 @@ const awsCredentials = {
 
 class AthenaDatabase {
   constructor() {
-    AWS.config.update({ region: 'ap-southeast-2' }); // <-- changed
+    // AWS.config.update({ region: 'ap-southeast-2' }); // <-- changed
+    AWS.config.update(awsCredentials); // <-- changed
     this.athenaExpress = new AthenaExpress({
       aws: AWS,
       s3: 's3://tee1365testbucket/compx527', //TODO
