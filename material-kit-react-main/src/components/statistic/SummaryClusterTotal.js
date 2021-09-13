@@ -4,14 +4,12 @@ import {
 } from '@material-ui/core';
 import CardData from 'src/components/statistic/CardData';
 import PropTypes from 'prop-types';
-import CardDataRank from './CardDataRank';
+import numberWithCommas from 'src/utils/numberWithCommas';
+import CasesRank from './CasesRank';
+import DeathRank from './DeathRank';
 
-const SummaryClusterTotal = ({ countryDatas }) => {
-  const dashInfo = {
-    newCount: '1,000,000',
-    newDeath: '15,644',
-    totalcases: '9,451,215'
-  };
+const SummaryClusterTotal = ({ initWorld }) => {
+  const { worldSummary, topTenCases, topTenDeaths } = initWorld;
 
   return (
     <Box
@@ -23,25 +21,36 @@ const SummaryClusterTotal = ({ countryDatas }) => {
       <Grid container spacing={2}>
 
         <Grid item lg={12} sm={12} xl={12} xs={12}>
-          <CardData metric="" metricValue={new Date().toLocaleDateString().concat('(NZST)')} />
+          <CardData metric="Today date" metricValue={worldSummary ? worldSummary.date : 'loading....'} />
         </Grid>
 
         <Grid item lg={6} sm={6} xl={6} xs={6}>
-          <CardData metric=" New Cases Count " metricValue={dashInfo.newCount} />
+          <CardData metric=" New Cases Count " metricValue={worldSummary ? numberWithCommas(worldSummary.new_cases) : 'loading....'} />
         </Grid>
 
         <Grid item lg={6} sm={6} xl={6} xs={6}>
-          <CardData metric=" New Deaths Count" metricValue={dashInfo.newDeath} />
+          <CardData metric=" New Deaths Count" metricValue={worldSummary ? numberWithCommas(worldSummary.new_deaths) : 'loading....'} />
         </Grid>
 
-        <Grid item lg={12} sm={12} xl={12} xs={12}>
-          <CardData metric=" Total Cases Count" metricValue={dashInfo.totalcases} />
+        <Grid item lg={6} sm={6} xl={6} xs={6}>
+          <CardData metric=" Total Cases Count" metricValue={worldSummary ? numberWithCommas(worldSummary.total_cases) : 'loading...'} />
         </Grid>
-        <Grid item lg={6} sm={6} xl={6} xs={6} key={countryDatas.name}>
-          <CardDataRank title="Top 5 New Cases Count by Country" datas={countryDatas} />
+
+        <Grid item lg={6} sm={6} xl={6} xs={6}>
+          <CardData metric=" Total Death Count" metricValue={worldSummary ? numberWithCommas(worldSummary.total_deaths) : 'loading...'} />
         </Grid>
-        <Grid item lg={6} sm={6} xl={6} xs={6} key={countryDatas.name}>
-          <CardDataRank title="Top 5 New Deaths Count by Country" datas={countryDatas} />
+
+        <Grid item lg={6} sm={6} xl={6} xs={6} key={1}>
+          <CardData metric="" metricValue="Total Case Tank" />
+          {topTenCases
+            ? <CasesRank topTenCases={topTenCases} />
+            : <CardData metric="loading..." metricValue="" />}
+        </Grid>
+        <Grid item lg={6} sm={6} xl={6} xs={6} key={2}>
+          <CardData metric="" metricValue="Total Death Tank" />
+          {topTenDeaths
+            ? <DeathRank topTenDeaths={topTenDeaths} />
+            : <CardData metric="loading..." metricValue="" />}
         </Grid>
       </Grid>
 
@@ -50,7 +59,7 @@ const SummaryClusterTotal = ({ countryDatas }) => {
 };
 
 SummaryClusterTotal.propTypes = {
-  countryDatas: PropTypes.array.isRequired,
+  initWorld: PropTypes.array.isRequired,
 };
 
 export default SummaryClusterTotal;

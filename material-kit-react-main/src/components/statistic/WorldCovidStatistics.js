@@ -3,47 +3,56 @@ import {
   Grid,
 } from '@material-ui/core';
 import SummaryClusterTotal from 'src/components/statistic/SummaryClusterTotal';
-import ChartCluster from 'src/components/statistic/ChartCluster';
+import { useEffect, useState } from 'react';
+import moment from 'moment';
+import PieChart from 'src/components/statistic/PieChart';
+import service from '../../services/Server';
+import Map from './Map';
 
-const countryDatas = [
-  {
-    name: 'CHINA',
-    cases: 123,
-    death: 1231,
-  },
-  {
-    name: 'NZ',
-    cases: 12312,
-    death: 23423,
-  },
-  {
-    name: 'USA',
-    cases: 1231,
-    death: 6546456,
-  },
-  {
-    name: 'AUS',
-    cases: 24524,
-    death: 11122,
-  },
-  {
-    name: 'UK',
-    cases: 187679,
-    death: 17282,
-  },
-];
+const WorldCovidStatistics = () => {
+  // const [worldSummary, setWorldSummary] = useState(null);
+  // const [topTenData, setTopTenData] = useState(null);
+  const [initWorld, setInitWorld] = useState({
+    worldSummary: null,
+    topTenCases: null,
+    topTenDeaths: null,
+  });
 
-const WorldCovidStatistics = () => (
-  <Container>
-    <Grid container spacing={2}>
-      <Grid item lg={6} md={6} xl={6} xs={6}>
-        <SummaryClusterTotal countryDatas={countryDatas} />
+  const todayDate = moment(new Date()).format('YYYY-MM-DD');
+  useEffect(async () => {
+    const resSummary = await service.getSummaryOfWorld(todayDate);
+    const resTopTenCases = await service.getTopTenCases();
+    const resTopTenDeaths = await service.getTopTenDeaths();
+    setInitWorld({
+      worldSummary: resSummary[0],
+      topTenCases: resTopTenCases,
+      topTenDeaths: resTopTenDeaths
+    });
+  }, []);
+
+  return (
+    <Container maxWidth={false}>
+      <Grid container spacing={2}>
+        <Grid item lg={6} md={6} xl={6} xs={6}>
+          <SummaryClusterTotal initWorld={initWorld} />
+        </Grid>
+        <Grid item lg={6} md={6} xl={6} xs={6}>
+          {initWorld.topTenCases
+            ? (
+              <Grid container spacing={3}>
+                <Grid item lg={12} sm={12} xl={12} xs={12}>
+                  <Map topTenCases={initWorld.topTenCases} />
+                </Grid>
+                <Grid item lg={12} sm={12} xl={12} xs={12}>
+                  <PieChart topTenCases={initWorld.topTenCases} />
+                </Grid>
+              </Grid>
+            )
+            : 'loading...'}
+        </Grid>
       </Grid>
-      <Grid item lg={6} md={6} xl={6} xs={6}>
-        <ChartCluster />
-      </Grid>
-    </Grid>
-  </Container>
-);
+    </Container>
+  );
+};
 
 export default WorldCovidStatistics;

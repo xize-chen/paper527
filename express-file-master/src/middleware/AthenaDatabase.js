@@ -3,9 +3,9 @@ const AWS = require('aws-sdk');
 const statements = require('./QueryStatement');
 
 const awsCredentials = {
-  region: 'ap-southeast-2',
-  accessKeyId: 'AKIAZDZ2GGY4ACLRADXR', // TODO
-  secretAccessKey: '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', // TODO
+  region: 'us-east-2',
+  accessKeyId: 'AKIARBHC2ZWD74JWZCX5', // TODO
+  secretAccessKey: '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', // TODO
 };
 
 class AthenaDatabase {
@@ -14,7 +14,7 @@ class AthenaDatabase {
     AWS.config.update(awsCredentials); // <-- changed
     this.athenaExpress = new AthenaExpress({
       aws: AWS,
-      s3: 's3://tee1365testbucket/compx527', //TODO
+      s3: 's3://covid-123', //TODO
       // s3: 's3://', //TODO
       getStats: false,
     });
@@ -66,6 +66,28 @@ class AthenaDatabase {
   async getAllDataOfYesterday(callback) {
     this.query(statements.getAllDataOfYesterday(), callback);
   }
+
+  // bill =========================
+
+  async getTopTenByCase(callback) {
+    this.query(
+      `SELECT * FROM world_cases_deaths_testing
+INNER JOIN country_codes ON world_cases_deaths_testing.iso_code=country_codes."alpha-3 code"
+WHERE to_date(date, 'yyyy-mm-dd') = current_date - interval '1' day AND iso_code NOT LIKE '%OWID_%'
+ORDER BY total_cases DESC LIMIT 10`
+      , callback);
+  }
+
+  async getTopTenByDeath(callback) {
+    this.query(
+      `SELECT * FROM world_cases_deaths_testing
+INNER JOIN country_codes ON world_cases_deaths_testing.iso_code=country_codes."alpha-3 code"
+WHERE to_date(date, 'yyyy-mm-dd') = current_date - interval '1' day AND iso_code NOT LIKE '%OWID_%'
+ORDER BY total_deaths DESC LIMIT 10`
+      , callback
+    )
+  }
+  // ========================
 }
 
 const AthenaDatabaseInstance = new AthenaDatabase();
