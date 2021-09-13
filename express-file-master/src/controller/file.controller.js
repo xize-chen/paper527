@@ -232,6 +232,51 @@ const queryByEmail = (req, res) => {
   }
 };
 
+// =============== Bill ===================
+
+const getTopTenByCase = (req,res) => {
+  try {
+    athenaDatabase.getTopTenByCase(function (err, result) {
+      if (err !== null) {
+        return res.status(500).send({
+          message: `Could not get getTopTenByCase ${err}`,
+        });
+      }
+      return res.status(200).send({
+        message: 'getTopTenByCase successfully',
+        value: result,
+      });
+    });
+  } catch (err) {
+    return res.status(500).send({
+      message: `Serious error :${err}`,
+    });
+  }
+}
+
+const getTopTenByDeath = (req,res) => {
+  try {
+    athenaDatabase.getTopTenByDeath(function (err, result) {
+      if (err !== null) {
+        return res.status(500).send({
+          message: `Could not getTopTenByDeath ${err}`,
+        });
+      }
+      return res.status(200).send({
+        message: 'getTopTenByDeath successfully',
+        value: result,
+      });
+    });
+  } catch (err) {
+    return res.status(500).send({
+      message: `Serious error :${err}`,
+    });
+  }
+}
+
+// ==========================================
+
+
 module.exports = {
   getSummaryOfWorld,
   getTotalCases,
@@ -243,4 +288,6 @@ module.exports = {
   signInWithEmailAndPassword,
   signUp,
   getTotalCasesByLocation,
+  getTopTenByCase,
+  getTopTenByDeath
 };

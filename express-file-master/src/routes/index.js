@@ -7,6 +7,8 @@ let routes = (app) => {
   router.get('/get_total_case', controller.getTotalCases);
   router.get('/get_location_country', controller.getLocationOfCountry);
   router.get('/get_total_case_by_month', controller.getTotalCaseByMonth);
+  router.get('/get-top-10-by-case', controller.getTopTenByCase);
+  router.get('/get-top-10-by-death', controller.getTopTenByDeath);
   router.post('/sign_up', controller.signUp);
   router.post('/sign_in', controller.signInWithEmailAndPassword);
   router.post('/update_password', controller.updatePassword);

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import
 {
   MapContainer,
@@ -12,25 +13,20 @@ import
 } from '@material-ui/core';
 import 'leaflet/dist/leaflet.css';
 
-const Map = () => {
-  console.log('load...Map');
-  const countries = [
-    {
-      name: 'India', color: '#ff0000', radius: 8, location: [18, 77]
-    },
-    {
-      name: 'China', color: '#41ff01', radius: 1, location: [36, 113]
-    },
-    {
-      name: 'United States', color: '#5f24a6', radius: 5, location: [55, 247]
-    },
-    {
-      name: 'Australia', color: '#1f01ff', radius: 2, location: [-26, 132]
-    }];
+const Map = ({ topTenCases }) => {
+  const totalSumCases = topTenCases.reduce((a, b) => a + b.total_cases, 0);
+  console.log('sum', totalSumCases);
+  const countries = topTenCases.map((i) => ({
+    name: i.location,
+    color: '#ff0000',
+    radius: (i.total_cases / totalSumCases) * 10,
+    location: [Number(i.latitude), Number(i.longitude)]
+  }));
+
   return (
     <Box
       sx={{
-        height: 300,
+        height: 350,
         position: 'relative'
       }}
     >
