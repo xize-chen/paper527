@@ -41,7 +41,7 @@ const initRoutes = require('./src/routes');
 app.use(express.urlencoded({ extended: true }));
 initRoutes(app);
 
-let port = 8080;
+let port = 4000;
 app.listen(port, () => {
   console.log(`Running at localhost:${port}`);
   // const job = schedule.scheduleJob('0 12 * * *', function () {
