@@ -4,8 +4,8 @@ const statements = require('./QueryStatement');
 
 const awsCredentials = {
   region: 'ap-southeast-2',
-  accessKeyId: '', // TODO
-  secretAccessKey: '', // TODO
+  accessKeyId: 'AKIAZDZ2GGY4ACLRADXR', // TODO
+  secretAccessKey: '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', // TODO
 };
 
 class AthenaDatabase {
