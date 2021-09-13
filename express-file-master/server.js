@@ -41,10 +41,12 @@ const initRoutes = require('./src/routes');
 app.use(express.urlencoded({ extended: true }));
 initRoutes(app);
 
-let port = 4000;
+const port = process.env.NODE_ENV === 'production' ? 80 : 4000;
+
+// let port = 4000;
 app.listen(port, () => {
   console.log(`Running at localhost:${port}`);
-  // const job = schedule.scheduleJob('0 12 * * *', function () {
+  // const job = schedule.scheduleJob('0 0 * * *', function () {
   //   console.log('The answer to life, the universe, and everything!');
   //   getAllDataOfYesterday();
   // });
