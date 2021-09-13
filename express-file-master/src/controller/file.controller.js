@@ -243,5 +243,4 @@ module.exports = {
   signInWithEmailAndPassword,
   signUp,
   getTotalCasesByLocation,
-  getAllDataOfYesterday,
 };
