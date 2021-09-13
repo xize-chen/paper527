@@ -2,19 +2,19 @@ const AthenaExpress = require('athena-express');
 const AWS = require('aws-sdk');
 const statements = require('./QueryStatement');
 
-// const awsCredentials = {
-//   region: 'ap-southeast-2',
-//   accessKeyId: '', // TODO
-//   secretAccessKey: '', // TODO
-// };
+const awsCredentials = {
+  region: 'ap-southeast-2',
+  accessKeyId: '', // TODO
+  secretAccessKey: '', // TODO
+};
 
 class AthenaDatabase {
   constructor() {
     AWS.config.update({ region: 'ap-southeast-2' }); // <-- changed
     this.athenaExpress = new AthenaExpress({
       aws: AWS,
-      // s3: 's3://tee1365testbucket/compx527', //TODO
-      s3: 's3://', //TODO
+      s3: 's3://tee1365testbucket/compx527', //TODO
+      // s3: 's3://', //TODO
       getStats: false,
     });
   }
