@@ -47,10 +47,6 @@ class AthenaDatabase {
     this.query(statements.getTotalCaseByNow(date), callback);
   }
 
-  /* covid-19 situation for a country */
-  async getTotalCasesByLocation(date, location, callback) {
-    this.query(statements.getTotalCasesByLocation(date, location), callback);
-  }
 
   /* The location information of countries on the map: The latitude and longitude */
   async getLocationOfCountry(callback) {
@@ -73,7 +69,7 @@ class AthenaDatabase {
     this.query(
       `SELECT * FROM world_cases_deaths_testing
 INNER JOIN country_codes ON world_cases_deaths_testing.iso_code=country_codes."alpha-3 code"
-WHERE to_date(date, 'yyyy-mm-dd') = current_date - interval '1' day AND iso_code NOT LIKE '%OWID_%'
+WHERE to_date(date, 'yyyy-mm-dd') = current_date - interval '2' day AND iso_code NOT LIKE '%OWID_%'
 ORDER BY total_cases DESC LIMIT 10`
       , callback);
   }
@@ -82,10 +78,18 @@ ORDER BY total_cases DESC LIMIT 10`
     this.query(
       `SELECT * FROM world_cases_deaths_testing
 INNER JOIN country_codes ON world_cases_deaths_testing.iso_code=country_codes."alpha-3 code"
-WHERE to_date(date, 'yyyy-mm-dd') = current_date - interval '1' day AND iso_code NOT LIKE '%OWID_%'
+WHERE to_date(date, 'yyyy-mm-dd') = current_date - interval '2' day AND iso_code NOT LIKE '%OWID_%'
 ORDER BY total_deaths DESC LIMIT 10`
-      , callback
-    )
+      , callback)
+  }
+
+  /* covid-19 situation for a country */
+  async getTotalCasesByIsoCode(iso, callback) {
+    this.query(statements.getTotalCasesByIsoCode(iso), callback);
+  }
+
+  async get12MonthByIso(iso, callback) {
+    this.query(statements.get12MonthByIso(iso), callback);
   }
   // ========================
 }
