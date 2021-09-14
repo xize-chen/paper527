@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -40,10 +39,12 @@ const AccountProfile = ({
             }}
           />
           <Typography color="textPrimary" gutterBottom variant="h3">
-            Jackie Smith
+            {`${account.first_name} ${account.last_name}` }
           </Typography>
           <Typography color="textSecondary" variant="body1">
-            {`${moment().format('hh:mm A')} ${account.timezone}`}
+            <b>Account Created In</b>
+            <br />
+            {account.reg_time}
           </Typography>
         </Box>
       </CardContent>

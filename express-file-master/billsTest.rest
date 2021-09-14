@@ -1,0 +1,12 @@
+### test signup
+POST http://localhost:8080/sign_up
+  ?account={"email":"55ddsssd5@wq9de.com","first_name":"yifan","last_name":"bao","password":"qew12e12","policy":true}
+
+### test sign in
+POST http://localhost:8080/sign_in
+  ?email=wqe@qwe.com
+  &password=123123
+
+### test save Acount
+PUT http://localhost:8080/save_account
+  ?account={":first_name":"laala",":last_name":"sss",":phone":123123123,":country":"old zealand",":loc_state":"hamilton"}

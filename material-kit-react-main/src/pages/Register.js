@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import
 {
   Link as RouterLink,
@@ -18,6 +19,8 @@ import {
 } from '@material-ui/core';
 import { useFirebase } from 'react-redux-firebase';
 import paths from 'src/constants/route_path';
+
+import userService from '../services/user';
 
 // import { getAuth } from "firebase/auth";
 // import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
@@ -74,6 +77,7 @@ const Register = () => {
               auth.createUserWithEmailAndPassword(creds.email, creds.password)
                 .then(() => {
                   navigate(paths.login, { replace: true });
+                  userService.signup(creds);
                 })
                 .catch((error) => {
                   const errorCode = error.code;
