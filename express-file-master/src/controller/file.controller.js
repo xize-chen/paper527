@@ -72,60 +72,6 @@ const getLocationOfCountry = (req, res) => {
   }
 };
 
-/* Total deaths, cases in the world by month  ---including total deaths(or cases) per million
-[see the field total_deaths_per_million, total_cases_per_million] */
-const getTotalCaseByMonth = (req, res) => {
-  try {
-    athenaDatabase.getTotalCaseByMonth(function (err, result) {
-      if (err !== null) {
-        return res.status(500).send({
-          message: `Could not get total cases by month ${date}:${err}`,
-        });
-      }
-      return res.status(200).send({
-        message: 'Get total cases by month successfully',
-        value: result,
-      });
-    });
-  } catch (err) {
-    return res.status(500).send({
-      message: `Serious error: Could not get total cases by month :${err}`,
-    });
-  }
-};
-
-const getTotalCasesByLocation = (req, res) => {
-  try {
-    const date = req.query.date;
-    const location = req.query.location;
-    if (date == null || date == undefined) {
-      throw new Error('Invalid date');
-    }
-    if (location == null || location == undefined) {
-      throw new Error('Invalid location');
-    }
-
-    athenaDatabase.getTotalCasesByLocation(
-      date,
-      location,
-      function (err, result) {
-        if (err !== null) {
-          return res.status(500).send({
-            message: `Could not get total cases by location [${location}] [${date}]:${err}`,
-          });
-        }
-        return res.status(200).send({
-          message: 'Get summary information successfully',
-          value: result,
-        });
-      }
-    );
-  } catch (err) {
-    return res.status(500).send({
-      message: `Serious error: Could not get data :${err}`,
-    });
-  }
-};
 
 /* sign up a new account with an email */
 const signUp = (req, res) => {
@@ -274,6 +220,59 @@ const getTopTenByDeath = (req,res) => {
   }
 }
 
+
+const getTotalCasesByIso = (req, res) => {
+  try {
+    const iso = req.query.iso;
+    if (iso == null || iso == undefined) {
+      throw new Error('Invalid isocode');
+    }
+    athenaDatabase.getTotalCasesByIsoCode(iso,function (err, result) {
+        if (err !== null) {
+          return res.status(500).send({
+            message: `${err}`,
+          });
+        }
+        return res.status(200).send({
+          message: 'getTotalCasesByIso successfully',
+          value: result,
+        });
+      }
+    );
+  } catch (err) {
+    return res.status(500).send({
+      message: `Serious error: Could not get data :${err}`,
+    });
+  }
+};
+
+/* Total deaths, cases in the world by month  ---including total deaths(or cases) per million
+[see the field total_deaths_per_million, total_cases_per_million] */
+const getTotalCaseByMonth = (req, res) => {
+  try {
+    const iso = req.query.iso;
+    if (iso == null || iso == undefined) {
+      throw new Error('Invalid isocode');
+    }
+    athenaDatabase.get12MonthByIso(iso,function (err, result) {
+        if (err !== null) {
+          return res.status(500).send({
+            message: `${err}`,
+          });
+        }
+        return res.status(200).send({
+          message: 'get Total Case By Month successfully',
+          value: result,
+        });
+      }
+    );
+  } catch (err) {
+    return res.status(500).send({
+      message: `Serious error: Could not get data :${err}`,
+    });
+  }
+};
+
 // ==========================================
 
 
@@ -287,7 +286,7 @@ module.exports = {
   updatePassword,
   signInWithEmailAndPassword,
   signUp,
-  getTotalCasesByLocation,
+  getTotalCasesByIso,
   getTopTenByCase,
   getTopTenByDeath
 };

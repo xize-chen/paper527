@@ -15,14 +15,6 @@ const getSummaryOfWorld = async (date) => {
   return res.data.value.Items;
 };
 
-// const getTotalCasesEachCountry = async (date) => {
-//   const res = await axios
-//     .get('/get_total_case?date='.concat(date))
-//     .catch((err) => console.log(err));
-
-//   return res.data.value.Items;
-// };
-
 const getTopTenCases = async () => {
   const res = await axios
     .get(`${baseURL}/get-top-10-by-case`)
@@ -34,6 +26,21 @@ const getTopTenCases = async () => {
 const getTopTenDeaths = async () => {
   const res = await axios
     .get(`${baseURL}/get-top-10-by-death`)
+    .catch((err) => console.log(err));
+
+  return res.data.value.Items;
+};
+
+const getSummaryByLocation = async (iso) => {
+  const res = await axios
+    .get(`${baseURL}/get_total_cases_by_iso?iso=${iso}`)
+    .catch((err) => console.log(err));
+  return res.data.value.Items;
+};
+
+const getPastYearDataByLocation = async (iso) => {
+  const res = await axios
+    .get(`${baseURL}/get_past_12_month_by_iso?iso=${iso}`)
     .catch((err) => console.log(err));
 
   return res.data.value.Items;
@@ -60,7 +67,7 @@ const getTopTenDeaths = async () => {
 export default {
   getSummaryOfWorld,
   getTopTenCases,
-  getTopTenDeaths
-  // getLocationOfCountry,
-  // getTotalCaseByMonth
+  getTopTenDeaths,
+  getSummaryByLocation,
+  getPastYearDataByLocation
 };
