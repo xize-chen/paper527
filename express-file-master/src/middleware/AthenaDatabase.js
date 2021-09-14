@@ -1,3 +1,4 @@
+const NodeCache = require( "node-cache" );
 const AthenaExpress = require('athena-express');
 const AWS = require('aws-sdk');
 const statements = require('./QueryStatement');
@@ -16,8 +17,9 @@ class AthenaDatabase {
       aws: AWS,
       s3: 's3://covid-123', //TODO
       // s3: 's3://', //TODO
-      getStats: false,
+      getStats: true,
     });
+    this.myCache = new NodeCache();
   }
 
   async query(statement, callback) {
@@ -25,10 +27,18 @@ class AthenaDatabase {
       if (callback == null) {
         throw new Error('callback must be set');
       }
-      const results = await this.athenaExpress.query({
-        sql: statement,
-        db: 'covid-19',
-      });
+      let queryPara = {
+                        sql: statement,
+                        db: 'covid-19',
+                      };
+      if (this.myCache.has(statement)){
+        queryPara = this.myCache.get(statement);
+        return callback(null, queryPara);
+      }
+      const results = await this.athenaExpress.query(queryPara);
+      if (!this.myCache .has(statement)){
+        this.myCache.set(statement, results);
+      }
       callback(null, results);
     } catch (error) {
       console.log(error);
@@ -97,6 +107,11 @@ module.exports = AthenaDatabaseInstance;
 // Example about how to use this class
 // const database = new AthenaDatabase();
 // AthenaDatabaseInstance.getLocationOfCountry(function (err, results) {
-//   console.log(`database.err: ${JSON.stringify(err)}`);
-//   console.log(`database.result: ${JSON.stringify(results)}`);
+//   console.log(`database1.err: ${JSON.stringify(err)}`);
+//   console.log('step2');
+//   AthenaDatabaseInstance.getLocationOfCountry(function (err, results) {
+//     console.log(`database2.err: ${JSON.stringify(err)}`);
+//     // console.log(`database.result: ${JSON.stringify(results)}`);
+//   });
+//   // console.log(`database.result: ${JSON.stringify(results)}`);
 // });
