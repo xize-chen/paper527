@@ -12,6 +12,7 @@ import
   Box,
 } from '@material-ui/core';
 import 'leaflet/dist/leaflet.css';
+import numberWithCommas from 'src/utils/numberWithCommas';
 
 const Map = ({ topTenCases }) => {
   const totalSumCases = topTenCases.reduce((a, b) => a + b.total_cases, 0);
@@ -20,7 +21,9 @@ const Map = ({ topTenCases }) => {
     name: i.location,
     color: '#ff0000',
     radius: (i.total_cases / totalSumCases) * 10,
-    location: [Number(i.latitude), Number(i.longitude)]
+    location: [Number(i.latitude), Number(i.longitude)],
+    cases: i.total_cases,
+    deaths: i.total_deaths
   }));
 
   return (
@@ -59,7 +62,14 @@ const Map = ({ topTenCases }) => {
             fillOpacity={1}
           >
             <Popup>
-              {country}
+              <b>{country.name}</b>
+              <br />
+
+              Total cases :
+              {numberWithCommas(country.cases)}
+              <br />
+              Total deaths :
+              {numberWithCommas(country.deaths)}
             </Popup>
           </CircleMarker>
         ))}
