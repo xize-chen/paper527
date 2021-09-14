@@ -13,9 +13,8 @@ import {
 } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import states from 'src/constants/states';
-// import Server from 'src/services/Server';
+import userService from '../../services/user';
 
-// const service = new Server();
 const AccountProfileDetails = ({
   account, updateFunc, ...props
 }) => {
@@ -29,21 +28,9 @@ const AccountProfileDetails = ({
     country: account.country,
     uid: account.uid
   });
-  const saveDetail = () => {
-    // service.saveAccount(values)
-    //   .then((response) => {
-    //     if (response.data.value === undefined) {
-    //       console.error(response.message);
-    //     }
-    //     updateFunc(values);
-    //     const alterSuccess = { isError: false, isOpen: true, message: 'Save successfully!' };
-    //     setAlert(alterSuccess);
-    //   })
-    //   .catch((error) => {
-    //     const alterError = { isError: true, isOpen: true, message: 'error' };
-    //     console.log(`dddd${error}`);
-    //     setAlert(alterError);
-    //   });
+  const saveDetail = async () => {
+    const res = await userService.saveInfo(values);
+    console.log('from db', res);
   };
   const handleChange = (event) => {
     setValues({

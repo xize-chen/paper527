@@ -16,9 +16,8 @@ const Account = () => {
       console.log([]);
       return [];
     }
-    const accountArray = JSON.parse(session.getItem(sessionKey.ACCOUNT_KEY));
-    console.log(`useState,account: ${accountArray.length}`);
-    return accountArray.length > 0 ? accountArray[0] : {};
+    const account = JSON.parse(session.getItem(sessionKey.ACCOUNT_KEY));
+    return account;
   });
   const updateAccount = (account) => {
     const accountClone = clone(accountVal);
