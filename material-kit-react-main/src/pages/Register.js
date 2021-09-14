@@ -70,16 +70,24 @@ const Register = () => {
               password: Yup.string().max(255).required('password is required'),
               policy: Yup.boolean().oneOf([true], 'This field must be checked')
             })}
-            onSubmit={(creds, { setSubmitting }) => {
+            onSubmit={(creds, { setSubmitting, setErrors }) => {
               auth.createUserWithEmailAndPassword(creds.email, creds.password)
                 .then(() => {
-                  navigate(paths.dashboard, { replace: true });
+                  navigate(paths.login, { replace: true });
                 })
                 .catch((error) => {
                   const errorCode = error.code;
                   const errorMessage = error.message;
                   console.log(`error code: ${errorCode}, message: ${errorMessage}`);
                   console.error(`error: ${error}`);
+                  if (errorMessage.includes('password')) {
+                    setErrors({ password: error.message });
+                  } else if (errorMessage.includes('name')) {
+                    setErrors({ firstName: error.message });
+                  } else {
+                    setErrors({ email: error.message });
+                  }
+
                   setSubmitting(false);
                 });
             }}
