@@ -6,8 +6,8 @@ const moment = require("moment");
 const awsCredentials = {
     region: "us-east-2",
     endpoint: "https://dynamodb.us-east-2.amazonaws.com", // TODO endpoint
-    accessKeyId: "AKIA4O3UKRJK42FJKQNT", // TODO
-    secretAccessKey: "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" // TODO
+    accessKeyId: "", // TODO
+    secretAccessKey: "" // TODO
 };
 const table = "table_user";
 
