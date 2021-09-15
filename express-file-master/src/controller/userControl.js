@@ -68,7 +68,7 @@ const updatePassword = (req, res) => {
 /* save the account */
 const saveAccount = (req, res) => {
   try {
-    dynamoDB.saveAccount(req.query.account, function (err, result) {
+    dynamoDB.saveAccount(JSON.parse(req.query.account), function (err, result) {
       if (err !== null) {
         return res
           .status(210)

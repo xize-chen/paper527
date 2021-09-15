@@ -39,7 +39,7 @@ const PieChart = ({ topTenCases }) => {
         options={{
           title: {
             display: true,
-            text: 'Top 5 Total Cases Count by Country',
+            text: 'Top 5 Total Deaths by Country',
             fontSize: 25,
           },
           legend: {

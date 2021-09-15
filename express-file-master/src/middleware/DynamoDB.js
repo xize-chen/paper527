@@ -6,8 +6,8 @@ const moment = require("moment");
 const awsCredentials = {
     region: "us-east-2",
     endpoint: "https://dynamodb.us-east-2.amazonaws.com", // TODO endpoint
-    accessKeyId: "AKIARBHC2ZWD74JWZCX5", // TODO
-    secretAccessKey: "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" // TODO
+    accessKeyId: "AKIA4O3UKRJK42FJKQNT", // TODO
+    secretAccessKey: "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" // TODO
 };
 const table = "table_user";
 
@@ -57,7 +57,6 @@ class DynamoDB {
                 return ['error', null];
             }
             if (callback != null)
-
                 callback(null, result);
             return [null, result];
         } catch (error) {
@@ -152,19 +151,18 @@ class DynamoDB {
             if (account === null || account === undefined) {
                 return callback('account must be provided', null);
             }
+            console.log(`account: ${JSON.stringify(account.first_name)}, ${JSON.stringify(account.last_name)}`);
             var params = {
                 TableName: table,
                 Key: {
                     "email": account.email,
                 },
                 UpdateExpression: `set first_name=:first_name, last_name=:last_name,
-                                   phone=:phone, country=:country, loc_state=:loc_state`,
+                                   country=:country`,
                 ExpressionAttributeValues: {
                     ":first_name": account.first_name,
                     ":last_name": account.last_name,
-                    ":phone": account.phone,
                     ":country": account.country,
-                    ":loc_state": account.loc_state,
                 },
                 ReturnValues: "UPDATED_NEW"
             };

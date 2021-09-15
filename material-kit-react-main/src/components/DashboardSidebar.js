@@ -13,11 +13,15 @@ import {
 import SignOut from 'src/pages/SignOut';
 import paths from 'src/constants/route_path';
 import menu from 'src/config/menu';
+import sessionKey from 'src/constants/sessionKey';
 import NavItem from './NavItem';
+
+const session = window.sessionStorage;
 
 const DashboardSidebar = ({ onMobileClose, openMobile }) => {
   const location = useLocation();
   const [responseOpen, setResponseOpen] = useState(false);
+  const currentAccount = JSON.parse(session.getItem(sessionKey.ACCOUNT_KEY));
   const validateFunc = (href) => {
     if (href !== paths.login) {
       return true;
@@ -59,7 +63,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           to={paths.account}
         />
         <Typography color="textPrimary" variant="h5">
-          sdsdsd Smith
+          {`${currentAccount.first_name} ${currentAccount.last_name}` }
         </Typography>
       </Box>
       <Divider />

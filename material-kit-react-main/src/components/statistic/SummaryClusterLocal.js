@@ -4,6 +4,7 @@ import {
   Grid,
 } from '@material-ui/core';
 import CardData from 'src/components/statistic/CardData';
+import numberWithCommas from 'src/utils/numberWithCommas';
 
 const CardCluster = ({ summary }) => {
   const dashInfo = {
@@ -13,37 +14,37 @@ const CardCluster = ({ summary }) => {
 
   const detailDatas = [
     {
-      label: 'Total Cases',
-      value: summary.total_cases || 'N/A'
+      label: 'Total Confirmed Cases',
+      value: numberWithCommas(summary.total_cases) || 'N/A'
+    },
+    {
+      label: 'New Confirmed Cases',
+      value: `${numberWithCommas(summary.new_cases)}` || 'N/A'
     },
     {
       label: 'Total Deaths',
-      value: summary.total_deaths || 'N/A'
+      value: numberWithCommas(summary.total_deaths) || 'N/A'
     },
     {
-      label: 'Percent Death',
-      value: `${summary.percent_death_confirm * 100} %` || 'N/A'
+      label: 'New Deaths',
+      value: `${numberWithCommas(summary.new_deaths)}` || 'N/A'
     },
     {
-      label: 'New Tests Per Thousand',
-      value: summary.new_tests_per_thousand || 'N/A'
+      label: 'Total COVID-19 Tests',
+      value: numberWithCommas(summary.total_tests) || 'N/A'
     },
     {
-      label: 'Total Cases Million',
-      value: summary.total_cases_per_million || 'N/A'
+      label: 'New COVID-19 Tests',
+      value: numberWithCommas(summary.new_tests) || 'N/A'
     },
     {
-      label: 'New Cases per Million',
-      value: summary.new_cases_per_million || 'N/A'
+      label: 'Total COVID-19 Tests / Thousand ppl',
+      value: numberWithCommas(summary.total_tests_per_thousand) || 'N/A'
     },
     {
-      label: 'total_tests',
-      value: summary.total_tests || 'N/A'
+      label: 'New COVID-19 Tests / Thousand ppl',
+      value: numberWithCommas(summary.new_tests_per_thousand) || 'N/A'
     },
-    {
-      label: 'new_tests',
-      value: summary.new_tests || 'N/A'
-    }
   ];
 
   // const proportion = { label: `${summary.location}: Total Cases`, value: summary.total_cases };

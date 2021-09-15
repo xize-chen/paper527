@@ -18,7 +18,7 @@ import FacebookIcon from 'src/icons/Facebook';
 import GoogleIcon from 'src/icons/Google';
 import { useFirebase } from 'react-redux-firebase';
 import paths from 'src/constants/route_path';
-import userService from '../services/user';
+import service from 'src/services/Server';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -29,25 +29,13 @@ const Login = () => {
   const handleAlertClose = () => {
     setAlertOpen(false);
   };
-  // const showError = (message) => {
-  //   console.log(message);
-  // };
-  // const googleLogin = () =>
-  //   firebase
-  //     .login({ provider: 'google', type: 'popup' })
-  //     .catch(err => showError(err.message));
   const emailLogin = (credentials, { setSubmitting, setErrors }) => {
     setErrorMsg('');
     firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
       .then(() => auth.signInWithEmailAndPassword(credentials.email, credentials.password)
-        .then(async (userCredential) => {
+        .then(async () => {
           // Signed in
-          console.log(`Sign in with user.isAnonymous: ${JSON.stringify(userCredential.user.isAnonymous)}`);
-          const userInfo = await userService.signin(credentials.email, credentials.password);
-          const user = window.sessionStorage.getItem('account');
-          if (!user) {
-            window.sessionStorage.setItem('account', JSON.stringify(userInfo));
-          }
+          await service.getAccount(credentials.email);
           navigate(paths.dashboard);
         })
         .catch((error) => {

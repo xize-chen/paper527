@@ -2,18 +2,19 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import { Line } from 'react-chartjs-2';
+import sessionKey from 'src/constants/sessionKey';
 
-const TrendLine = ({ past12Month }) => {
-  const myData = past12Month.reverse();
+const TrendLine = ({ past12Month, confirmed }) => {
+  const myData = past12Month;
   const data = {
     labels: myData.map((i) => i.date),
     datasets: [
       {
-        label: 'Total Confirmed Cases',
-        data: myData.map((i) => i.total_cases),
+        label: (confirmed === true ? 'New Confirmed Cases' : 'New COVID-19 Tests'),
+        data: myData.map((i) => (confirmed === true ? i.new_cases : i.new_tests)),
         fill: false,
         backgroundColor: 'rgba(75,192,192,0.2)',
-        borderColor: 'rgba(75,192,192,1)'
+        borderColor: (confirmed === true ? 'rgba(171, 68, 138, 1)' : 'rgba(75,192,192,1)'),
       },
 
     ]
@@ -25,7 +26,7 @@ const TrendLine = ({ past12Month }) => {
         options={{
           title: {
             display: true,
-            text: 'New Zealand Total Cases Over 12 Month',
+            text: (confirmed === true ? 'New Confirmed Cases' : 'New COVID-19 Tests'),
             fontSize: 25,
           },
           legend: {

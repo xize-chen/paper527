@@ -4,6 +4,7 @@
 // eslint-disable-next-line consistent-return
 
 import axios from 'axios';
+import sessionKey from 'src/constants/sessionKey';
 
 const baseURL = 'http://localhost:8080';
 
@@ -17,15 +18,15 @@ const getSummaryOfWorld = async (date) => {
 
 const getTopTenCases = async () => {
   const res = await axios
-    .get(`${baseURL}/get-top-10-by-case`)
+    .get(`${baseURL}/get-top-10-by-death-case`)
     .catch((err) => console.log(err));
 
   return res.data.value.Items;
 };
 
-const getTopTenDeaths = async () => {
+const getTopTenTests = async () => {
   const res = await axios
-    .get(`${baseURL}/get-top-10-by-death`)
+    .get(`${baseURL}/get-top-10-by-tests`)
     .catch((err) => console.log(err));
 
   return res.data.value.Items;
@@ -38,36 +39,66 @@ const getSummaryByLocation = async (iso) => {
   return res.data.value.Items;
 };
 
-const getPastYearDataByLocation = async (iso) => {
+const getPastYearDataByLocation = async (location) => {
   const res = await axios
-    .get(`${baseURL}/get_past_12_month_by_iso?iso=${iso}`)
+    .get(`${baseURL}/get_past_12_month_by_iso?iso=${location}`)
     .catch((err) => console.log(err));
 
   return res.data.value.Items;
 };
 
-// getLocationOfCountry(callback) {
-//   return http.get('/get_location_country').then((response) => {
-//     if (response.status !== 200) {
-//       console.log(response.data.message);
-//     }
-//     callback((res) => res.data);
-//   });
-// }
+const signUp = async (account) => {
+  const strAcc = JSON.stringify(account);
+  axios
+    .post(`${baseURL}/sign_up?account=${strAcc}`)
+    .catch((err) => console.log(err));
+};
 
-// getTotalCaseByMonth(callback) {
-//   return http.get('/get_total_case_by_month').then((response) => {
-//     if (response.status !== 200) {
-//       console.log(response.data.message);
-//     }
-//     callback((res) => res.data);
-//   });
-// }
+const signIn = async (email, pass) => {
+  const res = await axios
+    .post(`${baseURL}/sign_in?email=${email}&password=${pass}`)
+    .catch((err) => console.log(err));
+  return res.data.value;
+};
+
+const getAccount = async (email) => {
+  const res = await axios
+    .get(`${baseURL}/query_by_email?email=${email}`)
+    .catch((err) => console.log(err));
+  console.log(`res.data.value: ${JSON.stringify(res.data.value)}`);
+  const result = res.data.value.Items.length > 0 ? res.data.value.Items[0] : {};
+  window.sessionStorage.setItem(sessionKey.ACCOUNT_KEY, JSON.stringify(result));
+  return result;
+};
+
+const saveInfo = async (account) => {
+  const strAcc = JSON.stringify(account);
+  const res = await axios
+    .put(`${baseURL}/save_account?account=${strAcc}`)
+    .catch((err) => console.log(err));
+  console.log(res);
+  return res;
+};
+
+const getCountries = async () => {
+  const res = await axios
+    .get(`${baseURL}/get_location_country`)
+    .catch((err) => console.log(err));
+  console.log(`getCountries: ${JSON.stringify(res.data.value)}`);
+  const result = res.data.value.Items.length > 0 ? res.data.value.Items[0] : {};
+  window.sessionStorage.setItem(sessionKey.ACCOUNT_KEY, JSON.stringify(result));
+  return result;
+};
 
 export default {
   getSummaryOfWorld,
   getTopTenCases,
-  getTopTenDeaths,
+  getTopTenTests,
   getSummaryByLocation,
-  getPastYearDataByLocation
+  getPastYearDataByLocation,
+  signUp,
+  signIn,
+  saveInfo,
+  getAccount,
+  getCountries
 };

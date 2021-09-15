@@ -20,7 +20,7 @@ import {
 import { useFirebase } from 'react-redux-firebase';
 import paths from 'src/constants/route_path';
 
-import userService from '../services/user';
+import userService from '../services/Server';
 
 // import { getAuth } from "firebase/auth";
 // import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
@@ -77,7 +77,7 @@ const Register = () => {
               auth.createUserWithEmailAndPassword(creds.email, creds.password)
                 .then(() => {
                   navigate(paths.login, { replace: true });
-                  userService.signup(creds);
+                  userService.signUp(creds);
                 })
                 .catch((error) => {
                   const errorCode = error.code;

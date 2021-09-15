@@ -8,8 +8,8 @@ let routes = (app) => {
   router.get('/get_total_case', controller.getTotalCases);
   router.get('/get_location_country', controller.getLocationOfCountry);
   router.get('/get_past_12_month_by_iso', controller.getTotalCaseByMonth);
-  router.get('/get-top-10-by-case', controller.getTopTenByCase);
-  router.get('/get-top-10-by-death', controller.getTopTenByDeath);
+  router.get('/get-top-10-by-death-case', controller.getTopTenByCase);
+  router.get('/get-top-10-by-tests', controller.getTopTenByTests);
   router.get('/get_total_cases_by_iso',controller.getTotalCasesByIso);
 
   // router.get('/user/:id')
@@ -17,7 +17,7 @@ let routes = (app) => {
   router.post('/sign_in', userControl.signInWithEmailAndPassword);
   router.post('/update_password', userControl.updatePassword);
   router.put('/save_account', userControl.saveAccount);
-  router.post('/query_by_email', userControl.queryByEmail);
+  router.get('/query_by_email', userControl.queryByEmail);
 
   app.use(router);
 };

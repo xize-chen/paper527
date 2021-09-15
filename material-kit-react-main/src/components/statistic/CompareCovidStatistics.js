@@ -23,6 +23,7 @@ const CompareCovidStatistics = () => {
     case: [countryA.case, countryB.case],
     death: [countryA.death, countryB.death]
   });
+
   return (
     <Container maxWidth={false}>
       <Grid container spacing={2}>

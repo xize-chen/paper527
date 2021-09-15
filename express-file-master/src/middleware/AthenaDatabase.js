@@ -79,17 +79,17 @@ class AthenaDatabase {
     this.query(
       `SELECT * FROM world_cases_deaths_testing
 INNER JOIN country_codes ON world_cases_deaths_testing.iso_code=country_codes."alpha-3 code"
-WHERE to_date(date, 'yyyy-mm-dd') = current_date - interval '2' day AND iso_code NOT LIKE '%OWID_%'
-ORDER BY total_cases DESC LIMIT 10`
+WHERE to_date(date, 'yyyy-mm-dd') = current_date - interval '1' day AND iso_code NOT LIKE '%OWID_%'
+ORDER BY total_deaths DESC LIMIT 10`
       , callback);
   }
 
-  async getTopTenByDeath(callback) {
+  async getTopTenByTests(callback) {
     this.query(
       `SELECT * FROM world_cases_deaths_testing
 INNER JOIN country_codes ON world_cases_deaths_testing.iso_code=country_codes."alpha-3 code"
-WHERE to_date(date, 'yyyy-mm-dd') = current_date - interval '2' day AND iso_code NOT LIKE '%OWID_%'
-ORDER BY total_deaths DESC LIMIT 10`
+WHERE to_date(date, 'yyyy-mm-dd') = current_date - interval '1' day AND iso_code NOT LIKE '%OWID_%'
+ORDER BY total_tests DESC LIMIT 10`
       , callback)
   }
 
@@ -107,15 +107,3 @@ ORDER BY total_deaths DESC LIMIT 10`
 const AthenaDatabaseInstance = new AthenaDatabase();
 
 module.exports = AthenaDatabaseInstance;
-
-// Example about how to use this class
-// const database = new AthenaDatabase();
-// AthenaDatabaseInstance.getLocationOfCountry(function (err, results) {
-//   console.log(`database1.err: ${JSON.stringify(err)}`);
-//   console.log('step2');
-//   AthenaDatabaseInstance.getLocationOfCountry(function (err, results) {
-//     console.log(`database2.err: ${JSON.stringify(err)}`);
-//     // console.log(`database.result: ${JSON.stringify(results)}`);
-//   });
-//   // console.log(`database.result: ${JSON.stringify(results)}`);
-// });

@@ -8,6 +8,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import numberWithCommas from 'src/utils/numberWithCommas';
 
 const useStyles = makeStyles({
   table: {
@@ -30,7 +31,7 @@ export default function CasesRank({ topTenCases }) {
         <TableHead>
           <TableRow>
             <TableCell>Country</TableCell>
-            <TableCell align="right">Cases(billion)</TableCell>
+            <TableCell align="right">Cases</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -39,7 +40,7 @@ export default function CasesRank({ topTenCases }) {
               <TableCell component="th" scope="row">
                 {row.name}
               </TableCell>
-              <TableCell align="right">{row.cases}</TableCell>
+              <TableCell align="right">{numberWithCommas(row.cases)}</TableCell>
             </TableRow>
           ))}
         </TableBody>

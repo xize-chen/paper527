@@ -8,6 +8,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import numberWithCommas from 'src/utils/numberWithCommas';
 
 const useStyles = makeStyles({
   table: {
@@ -15,14 +16,14 @@ const useStyles = makeStyles({
   },
 });
 
-function createData(name, deaths) {
-  return { name, deaths };
+function createData(name, tests) {
+  return { name, tests };
 }
 
-export default function DeathRank({ topTenDeaths }) {
+export default function DeathRank({ topTenTests }) {
   const classes = useStyles();
 
-  const rows = topTenDeaths.slice(0, 5).map((i) => createData(i.location, i.total_deaths));
+  const rows = topTenTests.slice(0, 5).map((i) => createData(i.location, i.total_tests));
 
   return (
     <TableContainer component={Paper}>
@@ -30,7 +31,7 @@ export default function DeathRank({ topTenDeaths }) {
         <TableHead>
           <TableRow>
             <TableCell>Country</TableCell>
-            <TableCell align="right">Deaths</TableCell>
+            <TableCell align="right">Test units</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -39,7 +40,7 @@ export default function DeathRank({ topTenDeaths }) {
               <TableCell component="th" scope="row">
                 {row.name}
               </TableCell>
-              <TableCell align="right">{row.deaths}</TableCell>
+              <TableCell align="right">{numberWithCommas(row.tests)}</TableCell>
             </TableRow>
           ))}
         </TableBody>
