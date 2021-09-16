@@ -4,9 +4,16 @@
 // eslint-disable-next-line consistent-return
 
 import axios from 'axios';
-import sessionKey from 'src/constants/sessionKey';
+import sessionKey from '../constants/sessionKey';
 
-const baseURL = 'http://localhost:8080';
+const env = process.env.NODE_ENV;
+let baseURL;
+
+if (env === 'development') {
+  baseURL = 'http://localhost:8080';
+} else if (env === 'production') {
+  baseURL = '/api';
+}
 
 const getSummaryOfWorld = async (date) => {
   const res = await axios
