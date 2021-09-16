@@ -24,7 +24,7 @@ const WorldCovidStatistics = () => {
     setInitWorld({
       worldSummary: resSummary[0],
       topTenCases: resTopTenCases,
-      topTenTests: resTopTenTests
+      topTenTests: resTopTenTests,
     });
   }, []);
 

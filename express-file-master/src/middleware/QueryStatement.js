@@ -38,7 +38,7 @@ FROM world_cases_deaths_testing
 WHERE location ='${iso}' and to_date(date, 'yyyy-mm-dd') >= current_date - interval '14' day
 order by date`;
 
-const getAllDataOfYesterday = () => `SELECT date,
+const getAllDataOfYesterday = (varCurrentDate) => `SELECT date,
 location,
 total_cases,
 total_deaths,
@@ -55,7 +55,7 @@ total_tests_per_thousand,
 new_tests_per_thousand,
 tests_units
 FROM world_cases_deaths_testing
-WHERE to_date(date, '${dateFormat}') = current_date - interval '1' day
+WHERE date='${varCurrentDate}'
 ORDER BY  location ASC`;
 
 // const job = schedule.scheduleJob('0 12 * * *', function () {
@@ -63,15 +63,13 @@ ORDER BY  location ASC`;
 // });
 
 // =============bill=========
-const getTotalCasesByIsoCode = (iso) => `SELECT location,date,total_cases,total_deaths,
+const getTotalCasesByIsoCode = (iso, varCurrentDate) => `SELECT location,date,total_cases,total_deaths,
 round((total_deaths * 1.0) / total_cases, 2) as percent_death_confirm,
 new_cases,new_deaths,iso_code,total_cases_per_million,new_cases_per_million,
 total_deaths_per_million,new_deaths_per_million,COALESCE(total_tests) total_tests, COALESCE(new_tests) total_tests,
 total_tests_per_thousand,new_tests_per_thousand
 FROM world_cases_deaths_testing
-WHERE location='${iso}' and to_date(date, 'yyyy-mm-dd') <= current_date - interval '1' day
-order by date desc
-limit 1`;
+WHERE location='${iso}' and date='${varCurrentDate}'`;
 
 module.exports = {
   getTotalCaseWorldwide,

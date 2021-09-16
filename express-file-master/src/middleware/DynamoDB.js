@@ -1,13 +1,13 @@
 const AWS = require('aws-sdk');
 const crypto = require('crypto');
 const moment = require("moment");
-
+const NodeCache = require( "node-cache" );
 
 const awsCredentials = {
     region: "us-east-2",
     endpoint: "https://dynamodb.us-east-2.amazonaws.com", // TODO endpoint
-    accessKeyId: "", // TODO
-    secretAccessKey: "" // TODO
+    accessKeyId: "AKIA4O3UKRJK2L544VRS", // TODO
+    secretAccessKey: "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" // TODO
 };
 const table = "table_user";
 
@@ -15,6 +15,7 @@ class DynamoDB {
     constructor() {
         AWS.config.update(awsCredentials);
         this.docClient = new AWS.DynamoDB.DocumentClient();
+        this.myCache = new NodeCache();
     }
 
     getHashCode(password, factor) {
@@ -35,6 +36,10 @@ class DynamoDB {
 
     async queryByEmail(email, callback = null) {
         try {
+            if (this.myCache.has(email)) {
+                callback(null, this.myCache.get(email));
+                return [null, this.myCache.get(email)];
+            }
             if (email === null || email === undefined) {
                 if (callback != null)
                     callback('email must be provided', null);
@@ -58,6 +63,9 @@ class DynamoDB {
             }
             if (callback != null)
                 callback(null, result);
+            if (!this.myCache.has(email)) {
+                this.myCache.set(email, result);
+            }
             return [null, result];
         } catch (error) {
             console.log(error);

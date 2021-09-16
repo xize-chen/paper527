@@ -67,6 +67,9 @@ const getAccount = async (email) => {
     .catch((err) => console.log(err));
   console.log(`res.data.value: ${JSON.stringify(res.data.value)}`);
   const result = res.data.value.Items.length > 0 ? res.data.value.Items[0] : {};
+  if (res.data.value.Items.length > 0) {
+    result.selectedCountry = result.country;
+  }
   window.sessionStorage.setItem(sessionKey.ACCOUNT_KEY, JSON.stringify(result));
   return result;
 };
@@ -84,9 +87,8 @@ const getCountries = async () => {
   const res = await axios
     .get(`${baseURL}/get_location_country`)
     .catch((err) => console.log(err));
-  console.log(`getCountries: ${JSON.stringify(res.data.value)}`);
-  const result = res.data.value.Items.length > 0 ? res.data.value.Items[0] : {};
-  window.sessionStorage.setItem(sessionKey.ACCOUNT_KEY, JSON.stringify(result));
+  // console.log(`getCountries: ${JSON.stringify(res.data.value)}`);
+  const result = res.data.value.Items.length > 0 ? res.data.value.Items : {};
   return result;
 };
 

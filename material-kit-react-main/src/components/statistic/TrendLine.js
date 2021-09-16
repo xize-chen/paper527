@@ -16,7 +16,6 @@ const TrendLine = ({ past12Month, confirmed }) => {
         backgroundColor: 'rgba(75,192,192,0.2)',
         borderColor: (confirmed === true ? 'rgba(171, 68, 138, 1)' : 'rgba(75,192,192,1)'),
       },
-
     ]
   };
   return (

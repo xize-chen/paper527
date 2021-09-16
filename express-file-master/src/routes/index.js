@@ -5,7 +5,7 @@ const userControl = require('../controller/userControl')
 
 let routes = (app) => {
   router.get('/get_summary_world', controller.getSummaryOfWorld);
-  router.get('/get_total_case', controller.getTotalCases);
+  // router.get('/get_total_case', controller.getTotalCases);
   router.get('/get_location_country', controller.getLocationOfCountry);
   router.get('/get_past_12_month_by_iso', controller.getTotalCaseByMonth);
   router.get('/get-top-10-by-death-case', controller.getTopTenByCase);

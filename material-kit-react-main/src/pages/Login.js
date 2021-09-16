@@ -35,7 +35,9 @@ const Login = () => {
       .then(() => auth.signInWithEmailAndPassword(credentials.email, credentials.password)
         .then(async () => {
           // Signed in
+          const start = Date.now();
           await service.getAccount(credentials.email);
+          console.log(`time consumed: ${Date.now() - start}`);
           navigate(paths.dashboard);
         })
         .catch((error) => {

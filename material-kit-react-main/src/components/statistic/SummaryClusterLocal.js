@@ -5,10 +5,11 @@ import {
 } from '@material-ui/core';
 import CardData from 'src/components/statistic/CardData';
 import numberWithCommas from 'src/utils/numberWithCommas';
+import CardComboData from 'src/components/statistic/CardComboData';
 
-const CardCluster = ({ summary }) => {
+const CardCluster = ({ summary, locationChanged }) => {
   const dashInfo = {
-    country: `User Location: ${summary.location}`,
+    country: summary.location, // `User Location: ${summary.location}`,
     date: `Report Date: ${summary.date}`
   };
 
@@ -57,8 +58,11 @@ const CardCluster = ({ summary }) => {
     >
       <Grid container spacing={2}>
         <Grid item lg={12} sm={12} xl={12} xs={12}>
-          <CardData metric="" metricValue={dashInfo.country} />
+          <CardComboData metric="Location" metricValue={dashInfo.country} valueChanged={locationChanged} />
         </Grid>
+        {/* <Grid item lg={12} sm={12} xl={12} xs={12}>
+          <CardData metric="" metricValue={dashInfo.country} />
+        </Grid> */}
         <Grid item lg={12} sm={12} xl={12} xs={12}>
           <CardData metric="" metricValue={dashInfo.date} />
         </Grid>

@@ -121,7 +121,7 @@ const getTotalCasesByIso = (req, res) => {
   try {
     const iso = req.query.iso;
     if (iso == null || iso == undefined) {
-      throw new Error('Invalid isocode');
+      throw new Error('Invalid location');
     }
     athenaDatabase.getTotalCasesByIsoCode(iso,function (err, result) {
         if (err !== null) {
