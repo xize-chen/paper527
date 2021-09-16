@@ -6,8 +6,8 @@ const moment = require('moment');
 
 const awsCredentials = {
   region: 'us-east-2',
-  accessKeyId: 'AKIA4O3UKRJK2L544VRS', // TODO
-  secretAccessKey: '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', // TODO
+  accessKeyId: '', // TODO
+  secretAccessKey: '', // TODO
 };
 
 class AthenaDatabase {
