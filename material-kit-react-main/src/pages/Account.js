@@ -1,44 +1,26 @@
 import { Helmet } from 'react-helmet';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Box, Container, Grid } from '@material-ui/core';
 import AccountProfile from 'src/components/account/AccountProfile';
 import AccountProfileDetails from 'src/components/account/AccountProfileDetails';
-// import Server from 'src/services/Server';
 import sessionKey from 'src/constants/sessionKey';
+import currentUser from 'src/config/currentUser';
 
-const clone = require('clone');
-
-// const service = new Server();
 const Account = () => {
   const session = window.sessionStorage;
   const [accountVal, setAccountVal] = useState(() => {
     if (session.getItem(sessionKey.ACCOUNT_KEY) == null) {
-      console.log([]);
-      return [];
+      return {
+        email: currentUser().email.slice(1, -1),
+        first_name: '',
+        last_name: '',
+        country: ''
+      };
     }
     const account = JSON.parse(session.getItem(sessionKey.ACCOUNT_KEY));
     return account;
   });
-  const updateAccount = (account) => {
-    const accountClone = clone(accountVal);
-    accountClone.first_name = account.first_name;
-    accountClone.last_name = account.last_name;
-    accountClone.email = account.email;
-    accountClone.phone = account.phone;
-    accountClone.state = account.state;
-    accountClone.country = account.country;
-    setAccountVal(accountClone);
-  };
-  useEffect(() => {
-    // service.getAccount((response) => {
-    //   const accountArray = JSON.parse(response.data.value);
-    //   if (accountArray.length > 0) {
-    //     setAccountVal(accountArray[0]);
-    //   } else {
-    //     setAccountVal({});
-    //   }
-    // });
-  }, []);
+
   return (
     <>
       <Helmet>
@@ -57,7 +39,7 @@ const Account = () => {
               <AccountProfile account={accountVal} />
             </Grid>
             <Grid item lg={8} md={6} xs={12}>
-              <AccountProfileDetails account={accountVal} updateFunc={updateAccount} />
+              <AccountProfileDetails account={accountVal} update={setAccountVal} />
             </Grid>
           </Grid>
         </Container>

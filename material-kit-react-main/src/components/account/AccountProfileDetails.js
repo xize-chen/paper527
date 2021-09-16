@@ -12,29 +12,28 @@ import {
   TextField
 } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
-import states from 'src/constants/states';
-import userService from '../../services/user';
+import sessionKey from 'src/constants/sessionKey';
+import userService from '../../services/Server';
 
 const AccountProfileDetails = ({
-  account, updateFunc, ...props
+  account, update, ...props
 }) => {
   const [alert, setAlert] = useState({});
-  const [values, setValues] = useState({
-    first_name: account.first_name,
-    last_name: account.last_name,
-    email: account.email,
-    phone: account.phone,
-    state: account.state,
-    country: account.country,
-    uid: account.uid
-  });
+
   const saveDetail = async () => {
-    const res = await userService.saveInfo(values);
-    console.log('from db', res);
+    const res = await userService.saveInfo(account);
+    console.log(`res: ${JSON.stringify(res)}`);
+    const isSuccess = res.status === 200;
+    const alterSuccess = { isError: !isSuccess, isOpen: true, message: res.data.message };
+    setAlert(alterSuccess);
+    if (isSuccess) {
+      window.sessionStorage.setItem(sessionKey.ACCOUNT_KEY, JSON.stringify(account));
+    }
   };
   const handleChange = (event) => {
-    setValues({
-      ...values,
+    console.log(event);
+    update({
+      ...account,
       [event.target.name]: event.target.value
     });
   };
@@ -59,7 +58,7 @@ const AccountProfileDetails = ({
                 name="first_name"
                 onChange={handleChange}
                 required
-                value={values.first_name}
+                value={account.first_name}
                 variant="outlined"
               />
             </Grid>
@@ -70,7 +69,7 @@ const AccountProfileDetails = ({
                 name="last_name"
                 onChange={handleChange}
                 required
-                value={values.last_name}
+                value={account.last_name}
                 variant="outlined"
               />
             </Grid>
@@ -82,18 +81,7 @@ const AccountProfileDetails = ({
                 name="email"
                 onChange={handleChange}
                 required
-                value={values.email}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="Phone Number"
-                name="phone"
-                onChange={handleChange}
-                type="number"
-                value={values.phone}
+                value={account.email}
                 variant="outlined"
               />
             </Grid>
@@ -104,28 +92,9 @@ const AccountProfileDetails = ({
                 name="country"
                 onChange={handleChange}
                 required
-                value={values.country}
+                value={account.country}
                 variant="outlined"
               />
-            </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="Select State"
-                name="state"
-                onChange={handleChange}
-                required
-                select
-                SelectProps={{ native: true }}
-                value={values.state}
-                variant="outlined"
-              >
-                {states.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </TextField>
             </Grid>
           </Grid>
         </CardContent>
@@ -160,8 +129,13 @@ const AccountProfileDetails = ({
 };
 
 AccountProfileDetails.propTypes = {
-  account: PropTypes.object.isRequired,
-  updateFunc: PropTypes.func.isRequired,
+  account: PropTypes.shape({
+    first_name: PropTypes.string.isRequired,
+    last_name: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    country: PropTypes.string.isRequired,
+  }),
+  update: PropTypes.func,
 };
 
 export default AccountProfileDetails;

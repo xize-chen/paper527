@@ -2,6 +2,7 @@ const NodeCache = require( "node-cache" );
 const AthenaExpress = require('athena-express');
 const AWS = require('aws-sdk');
 const statements = require('./QueryStatement');
+const moment = require('moment');
 
 const awsCredentials = {
   region: 'us-east-2',
@@ -15,11 +16,29 @@ class AthenaDatabase {
     AWS.config.update(awsCredentials); // <-- changed
     this.athenaExpress = new AthenaExpress({
       aws: AWS,
-      s3: 's3://', //TODO
+      s3: '', //TODO
       // s3: 's3://', //TODO
       getStats: true,
     });
     this.myCache = new NodeCache();
+    const cacheInstance = this.myCache;
+    const queryFun = this.query;
+    this.query('select date from world_cases_deaths_testing order by date desc limit 1',
+        function(err, result) {
+            if (err ==null) {
+                console.log(`====currentDate: ${JSON.stringify(result.Items[0].date)}`);
+                cacheInstance.set('current_date', result);
+            } else {
+                console.error(`fail to query current date: ${err}`);
+            }
+        });
+  }
+
+  getCurrentDate() {
+    if (this.myCache.has('current_date')) {
+        return this.myCache.get('current_date').Items[0].date;
+    }
+    return moment(new Date()).format('YYYY-MM-DD');;
   }
 
   async query(statement, callback) {
@@ -35,6 +54,7 @@ class AthenaDatabase {
         queryPara = this.myCache.get(statement);
         return callback(null, queryPara);
       }
+      // console.log(`${JSON.stringify(queryPara)}`);
       const results = await this.athenaExpress.query(queryPara);
       if (!this.myCache .has(statement)){
         this.myCache.set(statement, results);
@@ -70,32 +90,48 @@ class AthenaDatabase {
   }
 
   async getAllDataOfYesterday(callback) {
-    this.query(statements.getAllDataOfYesterday(), callback);
+    const varDate = this.getCurrentDate();
+    this.query(statements.getAllDataOfYesterday(varDate), callback);
   }
 
   // bill =========================
 
   async getTopTenByCase(callback) {
+    const varDate = this.getCurrentDate();
     this.query(
-      `SELECT * FROM world_cases_deaths_testing
+       `SELECT * FROM world_cases_deaths_testing
 INNER JOIN country_codes ON world_cases_deaths_testing.iso_code=country_codes."alpha-3 code"
-WHERE to_date(date, 'yyyy-mm-dd') = current_date - interval '2' day AND iso_code NOT LIKE '%OWID_%'
-ORDER BY total_cases DESC LIMIT 10`
-      , callback);
+WHERE  iso_code NOT LIKE '%OWID_%' and date= '${varDate}'
+ORDER BY total_deaths DESC LIMIT 10`
+       , callback);
+
+//     this.query(
+//       `SELECT * FROM world_cases_deaths_testing
+// INNER JOIN country_codes ON world_cases_deaths_testing.iso_code=country_codes."alpha-3 code"
+// WHERE date= ${varDate} AND iso_code NOT LIKE '%OWID_%'
+// ORDER BY total_deaths DESC LIMIT 10`
+//       , callback);
   }
 
-  async getTopTenByDeath(callback) {
+  async getTopTenByTests(callback) {
+    const varDate = this.getCurrentDate();
     this.query(
-      `SELECT * FROM world_cases_deaths_testing
-INNER JOIN country_codes ON world_cases_deaths_testing.iso_code=country_codes."alpha-3 code"
-WHERE to_date(date, 'yyyy-mm-dd') = current_date - interval '2' day AND iso_code NOT LIKE '%OWID_%'
-ORDER BY total_deaths DESC LIMIT 10`
-      , callback)
+       `SELECT * FROM world_cases_deaths_testing
+ WHERE date= '${varDate}' AND iso_code NOT LIKE '%OWID_%'
+ ORDER BY total_tests DESC LIMIT 10`
+       , callback);
+//     this.query(
+//       `SELECT * FROM world_cases_deaths_testing
+// INNER JOIN country_codes ON world_cases_deaths_testing.iso_code=country_codes."alpha-3 code"
+// WHERE date= ${varDate} AND iso_code NOT LIKE '%OWID_%'
+// ORDER BY total_tests DESC LIMIT 10`
+//       , callback)
   }
 
   /* covid-19 situation for a country */
   async getTotalCasesByIsoCode(iso, callback) {
-    this.query(statements.getTotalCasesByIsoCode(iso), callback);
+    const varDate = this.getCurrentDate();
+    this.query(statements.getTotalCasesByIsoCode(iso,varDate), callback);
   }
 
   async get12MonthByIso(iso, callback) {
@@ -107,15 +143,3 @@ ORDER BY total_deaths DESC LIMIT 10`
 const AthenaDatabaseInstance = new AthenaDatabase();
 
 module.exports = AthenaDatabaseInstance;
-
-// Example about how to use this class
-// const database = new AthenaDatabase();
-// AthenaDatabaseInstance.getLocationOfCountry(function (err, results) {
-//   console.log(`database1.err: ${JSON.stringify(err)}`);
-//   console.log('step2');
-//   AthenaDatabaseInstance.getLocationOfCountry(function (err, results) {
-//     console.log(`database2.err: ${JSON.stringify(err)}`);
-//     // console.log(`database.result: ${JSON.stringify(results)}`);
-//   });
-//   // console.log(`database.result: ${JSON.stringify(results)}`);
-// });

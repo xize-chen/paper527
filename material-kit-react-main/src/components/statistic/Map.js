@@ -16,16 +16,22 @@ import numberWithCommas from 'src/utils/numberWithCommas';
 
 const Map = ({ topTenCases }) => {
   const totalSumCases = topTenCases.reduce((a, b) => a + b.total_cases, 0);
-  console.log('sum', totalSumCases);
+  const colorFunc = (props) => {
+    if (props <= 0.1) return '#FF8000';
+    if (props > 0.1 && props < 0.2) {
+      return '#0000FF';
+    }
+    return '#ff0000';
+  };
+
   const countries = topTenCases.map((i) => ({
     name: i.location,
-    color: '#ff0000',
-    radius: (i.total_cases / totalSumCases) * 10,
+    color: colorFunc(i.total_cases / totalSumCases),
+    radius: (i.total_cases / totalSumCases) * 12,
     location: [Number(i.latitude), Number(i.longitude)],
     cases: i.total_cases,
     deaths: i.total_deaths
   }));
-
   return (
     <Box
       sx={{

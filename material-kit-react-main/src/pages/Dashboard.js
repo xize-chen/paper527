@@ -11,7 +11,7 @@ import {
 // import Map from 'src/components/statistic/Map';
 import LocalCovidStatistics from 'src/components/statistic/LocalCovidStatistics';
 import WorldCovidStatistics from 'src/components/statistic/WorldCovidStatistics';
-import CompareCovidStatistics from 'src/components/statistic/CompareCovidStatistics';
+import VPCompareCovidStatistics from 'src/components/statistic/VPCompareCovidStatistics';
 
 const DashboardTask = () => {
   const [value, setValue] = useState('one');
@@ -19,6 +19,7 @@ const DashboardTask = () => {
   const handleChange = (event, parValue) => {
     setValue(parValue);
   };
+
   return (
     <>
       <Helmet>
@@ -28,7 +29,7 @@ const DashboardTask = () => {
         <Tabs value={value} onChange={handleChange}>
           <Tab value="one" label="Local statistic" />
           <Tab value="two" label="world statistics" />
-          <Tab value="three" label="comparison" />
+          <Tab value="three" label="comparison of new cases" />
         </Tabs>
       </AppBar>
       <Box
@@ -40,7 +41,7 @@ const DashboardTask = () => {
       >
         {value === 'one' && <LocalCovidStatistics />}
         {value === 'two' && <WorldCovidStatistics />}
-        {value === 'three' && <CompareCovidStatistics />}
+        {value === 'three' && <VPCompareCovidStatistics defaultCountry="New Zealand" />}
       </Box>
     </>
   );

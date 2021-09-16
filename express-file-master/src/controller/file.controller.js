@@ -96,16 +96,16 @@ const getTopTenByCase = (req,res) => {
   }
 }
 
-const getTopTenByDeath = (req,res) => {
+const getTopTenByTests = (req,res) => {
   try {
-    athenaDatabase.getTopTenByDeath(function (err, result) {
+    athenaDatabase.getTopTenByTests(function (err, result) {
       if (err !== null) {
         return res.status(500).send({
-          message: `Could not getTopTenByDeath ${err}`,
+          message: `Could not getTopTenByTests ${err}`,
         });
       }
       return res.status(200).send({
-        message: 'getTopTenByDeath successfully',
+        message: 'getTopTenByTests successfully',
         value: result,
       });
     });
@@ -121,7 +121,7 @@ const getTotalCasesByIso = (req, res) => {
   try {
     const iso = req.query.iso;
     if (iso == null || iso == undefined) {
-      throw new Error('Invalid isocode');
+      throw new Error('Invalid location');
     }
     athenaDatabase.getTotalCasesByIsoCode(iso,function (err, result) {
         if (err !== null) {
@@ -179,5 +179,5 @@ module.exports = {
   getTotalCaseByMonth,
   getTotalCasesByIso,
   getTopTenByCase,
-  getTopTenByDeath
+  getTopTenByTests
 };

@@ -2,12 +2,12 @@
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
 
-const BarChart = ({ data }) => {
+const BarChart = ({ data, location }) => {
   const dataHorBar = {
-    labels: ['New Zealand'],
+    labels: [location],
     datasets: [
       {
-        label: 'Total Cases Count',
+        label: 'Confirmed Cases',
         backgroundColor: '#EC932F',
         borderColor: 'rgba(255,99,132,1)',
         borderWidth: 1,
@@ -16,7 +16,7 @@ const BarChart = ({ data }) => {
         data: [data.total_cases]
       },
       {
-        label: 'Total Deaths Count',
+        label: 'Deaths',
         backgroundColor: 'rgba(255,99,132,0.2)',
         borderColor: 'rgba(255,99,132,1)',
         borderWidth: 1,
@@ -33,7 +33,7 @@ const BarChart = ({ data }) => {
         options={{
           title: {
             display: true,
-            text: 'New Cases and New Deaths Count',
+            text: 'Total Confirmed Cases and Deaths',
             fontSize: 25,
           },
           legend: {

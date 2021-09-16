@@ -1,9 +1,9 @@
 import {
   BarChart as BarChartIcon,
-  Settings as SettingsIcon,
   User as UserIcon,
-} from 'react-feather';
 
+} from 'react-feather';
+import InputIcon from '@material-ui/icons/Input';
 import paths from 'src/constants/route_path';
 
 const items = [
@@ -18,9 +18,9 @@ const items = [
     title: 'Account'
   },
   {
-    href: paths.settings,
-    icon: SettingsIcon,
-    title: 'Settings'
+    href: paths.login,
+    icon: InputIcon,
+    title: 'Sign Out'
   },
 ];
 

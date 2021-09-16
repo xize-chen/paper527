@@ -1,7 +1,7 @@
 const AWS = require('aws-sdk');
 const crypto = require('crypto');
 const moment = require("moment");
-
+const NodeCache = require( "node-cache" );
 
 const awsCredentials = {
     region: "us-east-2",
@@ -15,6 +15,7 @@ class DynamoDB {
     constructor() {
         AWS.config.update(awsCredentials);
         this.docClient = new AWS.DynamoDB.DocumentClient();
+        this.myCache = new NodeCache();
     }
 
     getHashCode(password, factor) {
@@ -35,6 +36,10 @@ class DynamoDB {
 
     async queryByEmail(email, callback = null) {
         try {
+            if (this.myCache.has(email)) {
+                callback(null, this.myCache.get(email));
+                return [null, this.myCache.get(email)];
+            }
             if (email === null || email === undefined) {
                 if (callback != null)
                     callback('email must be provided', null);
@@ -57,8 +62,10 @@ class DynamoDB {
                 return ['error', null];
             }
             if (callback != null)
-
                 callback(null, result);
+            if (!this.myCache.has(email)) {
+                this.myCache.set(email, result);
+            }
             return [null, result];
         } catch (error) {
             console.log(error);
@@ -152,19 +159,18 @@ class DynamoDB {
             if (account === null || account === undefined) {
                 return callback('account must be provided', null);
             }
+            console.log(`account: ${JSON.stringify(account.first_name)}, ${JSON.stringify(account.last_name)}`);
             var params = {
                 TableName: table,
                 Key: {
                     "email": account.email,
                 },
                 UpdateExpression: `set first_name=:first_name, last_name=:last_name,
-                                   phone=:phone, country=:country, loc_state=:loc_state`,
+                                   country=:country`,
                 ExpressionAttributeValues: {
                     ":first_name": account.first_name,
                     ":last_name": account.last_name,
-                    ":phone": account.phone,
                     ":country": account.country,
-                    ":loc_state": account.loc_state,
                 },
                 ReturnValues: "UPDATED_NEW"
             };

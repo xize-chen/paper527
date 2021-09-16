@@ -8,9 +8,9 @@ const user = () => {
     }
   }
   return {
-    name: currentUser === null ? '' : JSON.stringify(currentUser.email),
-    uid: currentUser === null ? '' : JSON.stringify(currentUser.uid),
-    isAdmin: currentUser === null ? false : JSON.stringify(currentUser.email).includes('admin'),
+    email: currentUser === null ? '' : currentUser.email,
+    // uid: currentUser === null ? '' : JSON.stringify(currentUser.uid),
+    // isAdmin: currentUser === null ? false : JSON.stringify(currentUser.email).includes('admin'),
   };
 };
 

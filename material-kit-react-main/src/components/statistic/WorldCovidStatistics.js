@@ -10,23 +10,21 @@ import service from '../../services/Server';
 import Map from './Map';
 
 const WorldCovidStatistics = () => {
-  // const [worldSummary, setWorldSummary] = useState(null);
-  // const [topTenData, setTopTenData] = useState(null);
   const [initWorld, setInitWorld] = useState({
-    worldSummary: null,
-    topTenCases: null,
-    topTenDeaths: null,
+    worldSummary: '',
+    topTenCases: 0,
+    topTenDeaths: 0,
   });
 
   const todayDate = moment(new Date()).format('YYYY-MM-DD');
   useEffect(async () => {
     const resSummary = await service.getSummaryOfWorld(todayDate);
     const resTopTenCases = await service.getTopTenCases();
-    const resTopTenDeaths = await service.getTopTenDeaths();
+    const resTopTenTests = await service.getTopTenTests();
     setInitWorld({
       worldSummary: resSummary[0],
       topTenCases: resTopTenCases,
-      topTenDeaths: resTopTenDeaths
+      topTenTests: resTopTenTests,
     });
   }, []);
 
