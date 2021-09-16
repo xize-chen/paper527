@@ -5,8 +5,8 @@ const statements = require('./QueryStatement');
 
 const awsCredentials = {
   region: 'us-east-2',
-  accessKeyId: 'AKIARBHC2ZWD74JWZCX5', // TODO
-  secretAccessKey: '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', // TODO
+  accessKeyId: '', // TODO
+  secretAccessKey: '', // TODO
 };
 
 class AthenaDatabase {
@@ -15,7 +15,7 @@ class AthenaDatabase {
     AWS.config.update(awsCredentials); // <-- changed
     this.athenaExpress = new AthenaExpress({
       aws: AWS,
-      s3: 's3://covid-123', //TODO
+      s3: 's3://', //TODO
       // s3: 's3://', //TODO
       getStats: true,
     });
