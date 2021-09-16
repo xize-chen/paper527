@@ -6,8 +6,8 @@ const NodeCache = require( "node-cache" );
 const awsCredentials = {
     region: "us-east-2",
     endpoint: "https://dynamodb.us-east-2.amazonaws.com", // TODO endpoint
-    accessKeyId: "AKIA4O3UKRJK2L544VRS", // TODO
-    secretAccessKey: "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" // TODO
+    accessKeyId: "", // TODO
+    secretAccessKey: "" // TODO
 };
 const table = "table_user";
 
