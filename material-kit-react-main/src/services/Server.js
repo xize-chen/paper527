@@ -4,7 +4,7 @@
 // eslint-disable-next-line consistent-return
 
 import axios from 'axios';
-import sessionKey from 'src/constants/sessionKey';
+import sessionKey from '../constants/sessionKey';
 
 const baseURL = 'http://localhost:8080';
 
