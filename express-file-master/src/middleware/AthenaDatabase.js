@@ -4,19 +4,20 @@ const AWS = require('aws-sdk');
 const statements = require('./QueryStatement');
 const moment = require('moment');
 
-const awsCredentials = {
-  region: 'us-east-2',
-  accessKeyId: '', // TODO
-  secretAccessKey: '', // TODO
-};
+// const awsCredentials = {
+//   region: 'us-east-2',
+//   accessKeyId: '', // TODO
+//   secretAccessKey: '', // TODO
+// };
 
+// pass region and s3 address
 class AthenaDatabase {
   constructor() {
-    // AWS.config.update({ region: 'ap-southeast-2' }); // <-- changed
-    AWS.config.update(awsCredentials); // <-- changed
+    AWS.config.update({ region: 'us-east-2' }); // <-- changed
+    // AWS.config.update(awsCredentials); // <-- changed
     this.athenaExpress = new AthenaExpress({
       aws: AWS,
-      s3: '', //TODO
+      s3: 's3://covid19', //TODO
       // s3: 's3://', //TODO
       getStats: true,
     });
