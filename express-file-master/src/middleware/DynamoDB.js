@@ -6,7 +6,6 @@ const NodeCache = require( "node-cache" );
 const awsCredentials = {
     region: "us-east-2",
     endpoint: "https://dynamodb.us-east-2.amazonaws.com", // TODO endpoint
-
 };
 
 // need to create table first in the region, key -> email
@@ -175,7 +174,7 @@ class DynamoDB {
                 },
                 ReturnValues: "UPDATED_NEW"
             };
-
+            const cache = this.myCache;
             this.docClient.update(params, function (err, data) {
                 if (err) {
                     console.error("Unable to update item. Error JSON:", JSON.stringify(err));
@@ -183,6 +182,9 @@ class DynamoDB {
                     console.log("UpdateItem succeeded:", JSON.stringify(data));
                 }
                 callback(err, data);
+                if (cache.has(account.email)) {
+                    cache.del(account.email);
+                }
             });
         } catch (error) {
             console.log(error);
@@ -213,6 +215,7 @@ class DynamoDB {
                 },
                 ReturnValues: "UPDATED_NEW"
             };
+            const cache = this.myCache;
             this.docClient.update(params, function (err, data) {
                 if (err) {
                     console.error("Unable to update item. Error JSON:", JSON.stringify(err));
@@ -220,6 +223,9 @@ class DynamoDB {
                     console.log("UpdateItem succeeded:", JSON.stringify(data));
                 }
                 callback(err, data);
+                if (cache.has(email)) {
+                    cache.del(email);
+                }
             });
         } catch (error) {
             console.log(error);
