@@ -6,7 +6,6 @@ const NodeCache = require( "node-cache" );
 const awsCredentials = {
     region: "us-east-2",
     endpoint: "https://dynamodb.us-east-2.amazonaws.com", // TODO endpoint
-
 };
 
 // need to create table first in the region, key -> email
