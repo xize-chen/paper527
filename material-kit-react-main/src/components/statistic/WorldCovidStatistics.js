@@ -4,7 +4,7 @@ import {
 } from '@material-ui/core';
 import SummaryClusterTotal from 'src/components/statistic/SummaryClusterTotal';
 import { useEffect, useState } from 'react';
-import moment from 'moment';
+// import moment from 'moment';
 import PieChart from 'src/components/statistic/PieChart';
 import service from '../../services/Server';
 import Map from './Map';
@@ -16,9 +16,9 @@ const WorldCovidStatistics = () => {
     topTenDeaths: 0,
   });
 
-  const todayDate = moment(new Date()).format('YYYY-MM-DD');
+  // const todayDate = moment(new Date()).format('YYYY-MM-DD');
   useEffect(async () => {
-    const resSummary = await service.getSummaryOfWorld(todayDate);
+    const resSummary = await service.getSummaryOfWorld();
     const resTopTenCases = await service.getTopTenCases();
     const resTopTenTests = await service.getTopTenTests();
     setInitWorld({

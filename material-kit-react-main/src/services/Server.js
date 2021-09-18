@@ -9,15 +9,16 @@ import sessionKey from '../constants/sessionKey';
 const env = process.env.NODE_ENV;
 let baseURL;
 
+
 if (env === 'development') {
   baseURL = 'http://localhost:8080';
 } else if (env === 'production') {
   baseURL = '/api';
 }
 
-const getSummaryOfWorld = async (date) => {
+const getSummaryOfWorld = async () => {
   const res = await axios
-    .get(`${baseURL}/get_summary_world?date=${date}`)
+    .get(`${baseURL}/get_summary_world`)
     .catch((err) => console.log(err));
 
   return res.data.value.Items;
