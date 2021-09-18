@@ -13,8 +13,7 @@ class AthenaDatabase {
     // AWS.config.update(awsCredentials); // <-- changed
     this.athenaExpress = new AthenaExpress({
       aws: AWS,
-
-      // s3: 's3://', //TODO
+      s3: 's3://covid19', 
       getStats: false,
     });
     this.myCache = new NodeCache();
