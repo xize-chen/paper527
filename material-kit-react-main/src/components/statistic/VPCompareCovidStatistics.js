@@ -13,11 +13,15 @@ const clone = require('clone');
 const VPCompareCovidStatistics = ({ defaultCountry }) => {
   const [dataset, setDataset] = useState([{ country: defaultCountry, line: [] },
     { country: defaultCountry, line: [] }]);
-  const refreshLines = async (index, newLocation) => {
+  const refreshLines = async (index, newLocation, isCopy = false) => {
     const resPast12Month = await service.getPastYearDataByLocation(newLocation);
     const datasetClone = clone(dataset);
     datasetClone[index].country = newLocation;
     datasetClone[index].line = resPast12Month;
+    if (isCopy) {
+      datasetClone[index + 1].country = newLocation;
+      datasetClone[index + 1].line = resPast12Month;
+    }
     setDataset(datasetClone);
   };
 
@@ -30,7 +34,7 @@ const VPCompareCovidStatistics = ({ defaultCountry }) => {
   };
 
   useEffect(() => {
-    refreshLines(0, defaultCountry);
+    refreshLines(0, defaultCountry, true);
   }, []);
 
   return (

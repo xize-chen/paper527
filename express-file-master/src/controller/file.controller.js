@@ -3,11 +3,11 @@ const athenaDatabase = require('../middleware/AthenaDatabase');
 /* covid-19 situation worldwide: */
 const getSummaryOfWorld = (req, res) => {
   try {
-    if (req.query.date == null || req.query.date == undefined) {
-      throw new Error('Invalid date');
-    }
-    date = req.query.date;
-    athenaDatabase.getSummaryOfWorld(date, function (err, result) {
+    // if (req.query.date == null || req.query.date == undefined) {
+    //   throw new Error('Invalid date');
+    // }
+    // date = req.query.date;
+    athenaDatabase.getSummaryOfWorld(function (err, result) {
       if (err !== null) {
         return res.status(500).send({
           message: `Could not get summary information ${date}:${err}`,

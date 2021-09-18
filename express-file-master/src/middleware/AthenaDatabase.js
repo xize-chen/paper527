@@ -3,6 +3,7 @@ const AthenaExpress = require('athena-express');
 const AWS = require('aws-sdk');
 const statements = require('./QueryStatement');
 const moment = require('moment');
+const debug = true ? `where date = '2021-09-14'` : '';
 
 const awsCredentials = {
   region: 'us-east-2',
@@ -18,12 +19,15 @@ class AthenaDatabase {
       aws: AWS,
       s3: '', //TODO
       // s3: 's3://', //TODO
-      getStats: true,
+      getStats: false,
     });
     this.myCache = new NodeCache();
     const cacheInstance = this.myCache;
     const queryFun = this.query;
-    this.query('select date from world_cases_deaths_testing order by date desc limit 1',
+
+    const statement = `select date from world_cases_deaths_testing ${debug}
+                    order by date desc limit 1`
+    this.query(statement,
         function(err, result) {
             if (err ==null) {
                 console.log(`====currentDate: ${JSON.stringify(result.Items[0].date)}`);
@@ -43,6 +47,7 @@ class AthenaDatabase {
 
   async query(statement, callback) {
     try {
+       console.log(`statement: ${statement}`);
       if (callback == null) {
         throw new Error('callback must be set');
       }
@@ -67,8 +72,9 @@ class AthenaDatabase {
   }
 
   /* covid-19 situation worldwide: */
-  async getSummaryOfWorld(date, callback) {
-    this.query(statements.getTotalCaseWorldwide(date), callback);
+  async getSummaryOfWorld(callback) {
+    const varDate = this.getCurrentDate();
+    this.query(statements.getTotalCaseWorldwide(varDate), callback);
   }
 
   /* Used for the map visualization of total cases at the specific time by location
@@ -135,7 +141,8 @@ ORDER BY total_deaths DESC LIMIT 10`
   }
 
   async get12MonthByIso(iso, callback) {
-    this.query(statements.get12MonthByIso(iso), callback);
+    const varDate = this.getCurrentDate();
+    this.query(statements.get12MonthByIso(iso, varDate), callback);
   }
   // ========================
 }

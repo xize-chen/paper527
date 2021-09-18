@@ -30,12 +30,13 @@ const COUNTRY_LAT = `SELECT country, latitude, longitude
 
 // 4. Total deaths, cases in the world by month  ---including total deaths(or cases) per million
 //    [see the field total_deaths_per_million, total_cases_per_million]
-const get12MonthByIso = (iso) => `SELECT date,location,total_deaths,total_cases,new_cases,
+const get12MonthByIso = (iso, varCurrentDate) => `SELECT date,location,total_deaths,total_cases,new_cases,
 new_deaths,iso_code,total_cases_per_million,new_cases_per_million,
 total_deaths_per_million,new_deaths_per_million,COALESCE(total_tests) total_tests,COALESCE(new_tests,0) new_tests,
 total_tests_per_thousand,new_tests_per_thousand,tests_units
 FROM world_cases_deaths_testing
-WHERE location ='${iso}' and to_date(date, 'yyyy-mm-dd') >= current_date - interval '14' day
+WHERE to_date(date, 'yyyy-mm-dd') <= to_date('${varCurrentDate}', 'yyyy-mm-dd')
+and location ='${iso}' and (to_date(date, 'yyyy-mm-dd') >= to_date('${varCurrentDate}', 'yyyy-mm-dd') - interval '14' day)
 order by date`;
 
 const getAllDataOfYesterday = (varCurrentDate) => `SELECT date,
