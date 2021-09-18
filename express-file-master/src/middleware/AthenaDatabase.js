@@ -3,13 +3,7 @@ const AthenaExpress = require('athena-express');
 const AWS = require('aws-sdk');
 const statements = require('./QueryStatement');
 const moment = require('moment');
-const debug = true ? `where date = '2021-09-14'` : '';
 
-// const awsCredentials = {
-//   region: 'us-east-2',
-//   accessKeyId: '', // TODO
-//   secretAccessKey: '', // TODO
-// };
 
 // pass region and s3 address
 class AthenaDatabase {
@@ -18,7 +12,7 @@ class AthenaDatabase {
     // AWS.config.update(awsCredentials); // <-- changed
     this.athenaExpress = new AthenaExpress({
       aws: AWS,
-      s3: 's3://covid19', //TODO
+
       // s3: 's3://', //TODO
       getStats: false,
     });
@@ -26,9 +20,6 @@ class AthenaDatabase {
     const cacheInstance = this.myCache;
     const queryFun = this.query;
 
-    const statement = `select date from world_cases_deaths_testing ${debug}
-                    order by date desc limit 1`
-    this.query(statement,
         function(err, result) {
             if (err ==null) {
                 console.log(`====currentDate: ${JSON.stringify(result.Items[0].date)}`);
