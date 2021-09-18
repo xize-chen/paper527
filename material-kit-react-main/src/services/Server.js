@@ -9,7 +9,6 @@ import sessionKey from '../constants/sessionKey';
 const env = process.env.NODE_ENV;
 let baseURL;
 
-
 if (env === 'development') {
   baseURL = 'http://localhost:8080';
 } else if (env === 'production') {

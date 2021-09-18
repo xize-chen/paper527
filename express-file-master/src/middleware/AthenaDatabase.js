@@ -3,6 +3,7 @@ const AthenaExpress = require('athena-express');
 const AWS = require('aws-sdk');
 const statements = require('./QueryStatement');
 const moment = require('moment');
+const debug = true ? `where date = '2021-09-14'` : '';
 
 
 // pass region and s3 address
@@ -20,6 +21,9 @@ class AthenaDatabase {
     const cacheInstance = this.myCache;
     const queryFun = this.query;
 
+    const statement = `select date from world_cases_deaths_testing ${debug}
+                    order by date desc limit 1`
+    this.query(statement,
         function(err, result) {
             if (err ==null) {
                 console.log(`====currentDate: ${JSON.stringify(result.Items[0].date)}`);

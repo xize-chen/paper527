@@ -5,7 +5,7 @@ import Account from 'src/pages/Account';
 import Login from 'src/pages/Login';
 import NotFound from 'src/pages/NotFound';
 import Register from 'src/pages/Register';
-import Settings from 'src/pages/Settings';
+// import Settings from 'src/pages/Settings';
 import Dashboard from 'src/pages/Dashboard';
 
 const routes = (isLoggedIn) => [
@@ -26,7 +26,6 @@ const routes = (isLoggedIn) => [
     element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
     children: [
       { path: 'account', element: <Account /> },
-      { path: 'settings', element: <Settings /> },
       { path: '*', element: <NotFound /> },
       { path: 'dashboard', element: <Dashboard /> },
     ]

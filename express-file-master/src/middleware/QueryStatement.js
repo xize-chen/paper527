@@ -35,7 +35,8 @@ new_deaths,iso_code,total_cases_per_million,new_cases_per_million,
 total_deaths_per_million,new_deaths_per_million,COALESCE(total_tests) total_tests,COALESCE(new_tests,0) new_tests,
 total_tests_per_thousand,new_tests_per_thousand,tests_units
 FROM world_cases_deaths_testing
-
+WHERE to_date(date, 'yyyy-mm-dd') <= to_date('${varCurrentDate}', 'yyyy-mm-dd')
+and location ='${iso}' and (to_date(date, 'yyyy-mm-dd') >= to_date('${varCurrentDate}', 'yyyy-mm-dd') - interval '14' day)
 order by date`;
 
 const getAllDataOfYesterday = (varCurrentDate) => `SELECT date,

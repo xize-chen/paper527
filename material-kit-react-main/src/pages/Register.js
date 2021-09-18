@@ -19,25 +19,12 @@ import {
 } from '@material-ui/core';
 import { useFirebase } from 'react-redux-firebase';
 import paths from 'src/constants/route_path';
-
 import userService from '../services/Server';
-
-// import { getAuth } from "firebase/auth";
-// import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-
-// const auth = getAuth();
 
 const Register = () => {
   const navigate = useNavigate();
   const firebase = useFirebase();
   const auth = firebase.auth();
-  // const createNewUser = ({ email, password, username }) => {
-  //   firebase.createUser(
-  //     { email, password },
-  //     { username, email }
-  //   );
-  // };
-
   return (
     <>
       <Helmet>
@@ -70,7 +57,11 @@ const Register = () => {
                 .max(255)
                 .required('First name is required'),
               lastName: Yup.string().max(255).required('Last name is required'),
-              password: Yup.string().max(255).required('password is required'),
+              password: Yup.string().max(255).required('password is required').matches(
+                /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+                `Must Contain 8 Characters, One Uppercase, One Lowercase,
+                One Number and one special case Character`
+              ),
               policy: Yup.boolean().oneOf([true], 'This field must be checked')
             })}
             onSubmit={(creds, { setSubmitting, setErrors }) => {
