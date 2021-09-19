@@ -7,15 +7,12 @@ import {
   Box,
   Button,
   Container,
-  Grid,
   Link,
   Snackbar,
   TextField,
   Typography
 } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
-import FacebookIcon from 'src/icons/Facebook';
-import GoogleIcon from 'src/icons/Google';
 import { useFirebase } from 'react-redux-firebase';
 import paths from 'src/constants/route_path';
 import service from 'src/services/Server';
@@ -105,46 +102,7 @@ const Login = () => {
                     gutterBottom
                     variant="body2"
                   >
-                    Sign in on the internal platform
-                  </Typography>
-                </Box>
-                <Grid container spacing={3}>
-                  <Grid item xs={12} md={6}>
-                    <Button
-                      color="primary"
-                      fullWidth
-                      startIcon={<FacebookIcon />}
-                      onClick={handleSubmit}
-                      size="large"
-                      variant="contained"
-                    >
-                      Login with Facebook
-                    </Button>
-                  </Grid>
-                  <Grid item xs={12} md={6}>
-                    <Button
-                      fullWidth
-                      startIcon={<GoogleIcon />}
-                      onClick={handleSubmit}
-                      size="large"
-                      variant="contained"
-                    >
-                      Login with Google
-                    </Button>
-                  </Grid>
-                </Grid>
-                <Box
-                  sx={{
-                    pb: 1,
-                    pt: 3
-                  }}
-                >
-                  <Typography
-                    align="center"
-                    color="textSecondary"
-                    variant="body1"
-                  >
-                    or login with email address
+                    to browse Covid-19 dashboard
                   </Typography>
                 </Box>
                 <TextField
