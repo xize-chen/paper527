@@ -37,6 +37,7 @@ class DynamoDB {
     async queryByEmail(email, callback = null) {
         try {
             if (this.myCache.has(email)) {
+                console.log(`query cache: JSON:`);
                 callback(null, this.myCache.get(email));
                 return [null, this.myCache.get(email)];
             }
@@ -139,7 +140,7 @@ class DynamoDB {
                     'last_name': account.lastName,
                 }
             };
-
+            const cache = this.myCache;
             docClient.put(params, function (err, data) {
                 if (err) {
                     console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
@@ -147,6 +148,10 @@ class DynamoDB {
                     console.log("Added item:", JSON.stringify(data, null, 2));
                 }
                 callback(err, data);
+                if (cache.has(account.email)) {
+                    cache.del(account.email);
+                    console.log('signup:delete the cache')
+                }
             });
         } catch (error) {
             console.log(error);
@@ -184,6 +189,7 @@ class DynamoDB {
                 callback(err, data);
                 if (cache.has(account.email)) {
                     cache.del(account.email);
+                    console.log('delete the cache')
                 }
             });
         } catch (error) {
